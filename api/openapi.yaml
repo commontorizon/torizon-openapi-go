@@ -1,0 +1,3032 @@
+openapi: 3.0.3
+info:
+  description: |2+
+
+    This API is rate limited and will return the following headers for each API call.
+
+      - X-RateLimit-Limit - The total number of requests allowed within a time period
+      - X-RateLimit-Remaining - The total number of requests still allowed until the end of the rate limiting period
+      - X-RateLimit-Reset - The number of seconds until the limit is fully reset
+
+    In addition, if an API client is rate limited, it will receive a HTTP 420 response with the following header:
+
+       - Retry-After - The number of seconds to wait until this request is allowed
+
+  title: Torizon OTA
+  version: 2.0-Beta
+servers:
+- description: Torizon Platform API
+  url: https://app.torizon.io/api/v2beta
+security:
+- BearerAuth: []
+paths:
+  /devices:
+    get:
+      description: "\nRetrieves a list of devices in your repository. Can be filtered\
+        \ by device name, or return a list of\nspecific devices by giving the device\
+        \ UUIDs to return as query parameters.\n        "
+      operationId: getDevices
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: deviceUuid
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: nameContains
+        required: false
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: sortBy
+        required: false
+        schema:
+          $ref: '#/components/schemas/DeviceSort'
+        style: form
+      - explode: true
+        in: query
+        name: sortDirection
+        required: false
+        schema:
+          $ref: '#/components/schemas/DeviceSortDirection'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_DeviceInfoBasic'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+      summary: Query device information
+      tags:
+      - Devices
+    post:
+      description: "\nCreates a new device in your repository, returning the device\
+        \ credentials as a zipfile. This should not normally\nbe used; the usual way\
+        \ to add a device is for the device itself to call this endpoint, using a\
+        \ short-lived\nprovisioning token (for example, as retrieved from the [GET\
+        \ /devices/token](#/Devices/getDevicesToken) endpoint).\n\nYou can use this\
+        \ endpoint to create devices in bulk, but you will then have to manually provision\
+        \ the individual\ncredentials onto each device.\n        "
+      operationId: postDevices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceCreateReq'
+        required: true
+      responses:
+        "200":
+          content:
+            application/octet-stream:
+              schema:
+                format: binary
+                type: string
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Manually create a new device
+      tags:
+      - Devices
+  /devices/token:
+    get:
+      description: Retrieves a short-lived access token that can only be used to provision
+        device
+      operationId: getDevicesToken
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisionInfo'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Retrieve device provisioning token
+      tags:
+      - Devices
+  /devices/uptane/{deviceUuid}/assignment:
+    get:
+      description: "\nReturns the device's current update assignment, if any.\n\n\
+        Update assignments are an Uptane concept. The assignment is what the device\
+        \ will be instructed to install,\nthe next time it checks for an update. An\
+        \ update assignment does not necessarily mean the device will install\nan\
+        \ update. If, for example, the device reports that it already has all of the\
+        \ assigned software components\ninstalled, it will take no further action.\n\
+        \        "
+      operationId: getDevicesUptaneDeviceuuidAssignment
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/QueueResponse'
+                type: array
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Show detailed information about the currently-assigned update for a
+        single device
+      tags:
+      - Devices
+  /devices/network:
+    get:
+      description: "\nRetrieves network information (local IP address, MAC, hostname)\
+        \ for multiple devices. A list of devices can be specified\nas a query parameter;\
+        \ if no devices are specified will return information for all devices in the\
+        \ repository.\n        "
+      operationId: getDevicesNetwork
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: deviceUuid
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_NetworkInfo'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+      summary: Get network information for many devices
+      tags:
+      - Devices
+  /devices/network/{deviceUuid}:
+    get:
+      description: "Retrieves network information (local IP address, MAC, hostname)\
+        \ for a single device."
+      operationId: getDevicesNetworkDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkInfo'
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get network information for a single device
+      tags:
+      - Devices
+  /devices/uptane/{deviceUuid}/components:
+    get:
+      description: "\nReturns a list of the device components.\n\nComponents are an\
+        \ Uptane concept. In the Uptane standard, they are normally referred to as\
+        \ \"ECUs\", and\nrepresent individual discrete hardware modules in a vehicle.\
+        \ In TorizonCore, we use this concept to allow\nupdates to be sent independently\
+        \ to different software components of the system.\n\nIn particular, TorizonCore\
+        \ devices will normally have at least two components: one for the base OS,\
+        \ and\none for the application software.\n\nComponents have an ID (assumed\
+        \ to be the component's serial number in the automotive case) and a hardwareID\n\
+        (an indicator of the make or model of the component, for determining firmware/package\
+        \ compatibility). In\nTorizonCore, we give the application component the hardwareID\
+        \ \"docker-compose\", and the base OS component a\nhardwareID corresponding\
+        \ to the SoM's model (e.g. \"apalis-imx8\").\n\nThis endpoint returns a list\
+        \ of the components registered on the device, and the current software image\n\
+        installed on each one, if known.\n        "
+      operationId: getDevicesUptaneDeviceuuidComponents
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/EcuInfoResponse'
+                type: array
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get a list of the software components reported by a single device
+      tags:
+      - Devices
+  /devices/name/{deviceUuid}:
+    get:
+      description: "\nGets the display name of a device. The displayed name of the\
+        \ device is only a server-side concept; the device\nis not aware of its display\
+        \ name.\n        "
+      operationId: getDevicesNameDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get the display name of a single device
+      tags:
+      - Devices
+    put:
+      description: "\nSets the display name of a device. The displayed name of the\
+        \ device is only a server-side concept; the device\nis not aware of its display\
+        \ name.\n        "
+      operationId: putDevicesNameDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Set the display name of a single device
+      tags:
+      - Devices
+  /devices/notes/{deviceUuid}:
+    get:
+      description: "\nGets the device notes for a device. Device notes are shown in\
+        \ the web UI, and can be used to store additional\ninformation about the device.\n\
+        \        "
+      operationId: getDevicesNotesDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get the device notes for a specific device
+      tags:
+      - Devices
+    put:
+      description: "\nSets the device notes for a device. Device notes are shown in\
+        \ the web UI, and can be used to store additional\ninformation about the device.\
+        \ Accepts a string up to approximately 64kb; will be rendered as Markdown\
+        \ in the\nweb UI.\n        "
+      operationId: putDevicesNotesDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: "Invalid value for: body"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Set the device notes for a specific device
+      tags:
+      - Devices
+  /devices/packages/{deviceUuid}:
+    get:
+      description: Returns a list of the packages installed on the device.
+      operationId: getDevicesPackagesDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DevicePackages'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+      summary: Get information about the installed packages for a single device
+      tags:
+      - Devices
+  /devices/packages:
+    get:
+      description: "\nReturns a list of devices and the packages those devices have\
+        \ installed. A list of devices can be specified as\na query parameter; if\
+        \ no devices are specified will return information for all devices in the\
+        \ repository.\n        "
+      operationId: getDevicesPackages
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: deviceUuid
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: nameContains
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_DevicePackages'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Get information about the installed packages for many devices
+      tags:
+      - Devices
+  /devices/{deviceUuid}:
+    delete:
+      description: "\nPermanently delete a device from your repository. Once deleted,\
+        \ the device will no longer be able\nto connect to the server.\n        "
+      operationId: deleteDevicesDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "202":
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Delete a single device
+      tags:
+      - Devices
+    get:
+      description: "\nShows all available information about a single device. Included\
+        \ information:\n* Name, ID, UUID, notes (if any)\n* Time of provisioning,\
+        \ activation, latest update, and last connection to the repository\n* Any\
+        \ fleets the device is part of\n* Installed packages, if known\n* Network\
+        \ information (local IP address, MAC, hostname)\n* Device tags, if any\n \
+        \       "
+      operationId: getDevicesDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceInfoExtended'
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get detailed information about a single device
+      tags:
+      - Devices
+  /fleets:
+    get:
+      description: "\nReturns a list of fleets along with their UUIDs.\n        "
+      operationId: getFleets
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_Fleet'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+      summary: Get information about all fleets in your repository
+      tags:
+      - Fleets
+    post:
+      description: "\nCreates a new fleet. You must specify a fleet name and a fleet\
+        \ type, which can be `static` or `dynamic`.\nStatic fleets are the normal\
+        \ way of creating fleets on the Torizon platform. Dynamic fleets have an associated\n\
+        pattern matching expression, and devices that match the pattern are automatically\
+        \ added to the group.\n\nIf you are interested in using dynamic groups, please\
+        \ contact support--the expression language is not fully\ndocumented yet.\n\
+        \        "
+      operationId: postFleets
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFleet'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                format: uuid
+                type: string
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Create a new fleet
+      tags:
+      - Fleets
+  /fleets/{fleetId}/devices:
+    delete:
+      description: "\nRemoves devices, specified by a list of device UUIDs in the\
+        \ body, from a specific fleet.\n\nNote: only applicable to static fleets.\n\
+        \        "
+      operationId: deleteFleetsFleetidDevices
+      parameters:
+      - explode: false
+        in: path
+        name: fleetId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                format: uuid
+                type: string
+              type: array
+        required: false
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Remove devices from a fleet
+      tags:
+      - Fleets
+    get:
+      description: "\nReturns device information for all devices in the specified\
+        \ fleet. The schema for device data is the same as\nthe [GET /devices](#/Devices/getDevices)\
+        \ endpoint.\n        "
+      operationId: getFleetsFleetidDevices
+      parameters:
+      - explode: false
+        in: path
+        name: fleetId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_DeviceInfoBasic'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get information about the devices in a single fleet
+      tags:
+      - Fleets
+    post:
+      description: "\nAdds devices, specified by a list of device UUIDs in the body,\
+        \ to a specific fleet.\n\nNote: only applicable to static fleets.\n      \
+        \  "
+      operationId: postFleetsFleetidDevices
+      parameters:
+      - explode: false
+        in: path
+        name: fleetId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                format: uuid
+                type: string
+              type: array
+        required: false
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Add devices to a fleet
+      tags:
+      - Fleets
+  /fleets/{fleetId}:
+    delete:
+      description: "\nPermanently delete a fleet. Devices in the fleet are not deleted,\
+        \ but are no longer associated with the deleted fleet.\n        "
+      operationId: deleteFleetsFleetid
+      parameters:
+      - explode: false
+        in: path
+        name: fleetId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: "Invalid value for: path parameter fleetId"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Delete a fleet
+      tags:
+      - Fleets
+  /packages:
+    get:
+      description: "\nReturns a list of user-added packages in your repository. Does\
+        \ not include packages from other source, such\nas official TorizonCore images\
+        \ published by Toradex.\n\nMay be filtered using the `idContains` query parameter.\n\
+        \        "
+      operationId: getPackages
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: idContains
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_Package'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+      summary: Retrieve metadata about packages in your repository
+      tags:
+      - Packages
+    post:
+      description: "\nUpload a new package to your repository. The file to be added\
+        \ should be in the body as an octet-stream, and\nthe content-length header\
+        \ must be specified. You also must supply a package name and version, and\
+        \ the\nhardwareId(s) the package is built for (for example, `docker-compose`\
+        \ for an application package).\n        "
+      operationId: postPackages
+      parameters:
+      - explode: true
+        in: query
+        name: name
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: version
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: hardwareId
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: targetFormat
+        required: true
+        schema:
+          type: string
+        style: form
+      - explode: false
+        in: header
+        name: Content-Length
+        required: true
+        schema:
+          format: int32
+          type: integer
+        style: simple
+      requestBody:
+        content:
+          application/octet-stream:
+            schema:
+              format: binary
+              type: string
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Package'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Upload a new package
+      tags:
+      - Packages
+  /packages/{packageId}:
+    delete:
+      description: "\nDeletes a package and its metadata from your repository. Once\
+        \ you delete a package, it will no longer be a\nvalid install target. Any\
+        \ devices that still have the deleted package installed will show as \"Package\
+        \ not \nauthorized by your repository\".\n        "
+      operationId: deletePackagesPackageid
+      parameters:
+      - explode: false
+        in: path
+        name: packageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Delete a package
+      tags:
+      - Packages
+    patch:
+      description: "\nEdits the metadata about a package.\n\nNot all metadata can\
+        \ be edited. The package name and version cannot be changed, and the contents\
+        \ of the package\ncannot be changed. (You should upload a new package, with\
+        \ a new version number, if the contents of the package\nchange.) With this\
+        \ endpoint, you can edit custom metadata fields, package comments, external\
+        \ fetch URIs, and\nthe list of compatible components.\n        "
+      operationId: patchPackagesPackageid
+      parameters:
+      - explode: false
+        in: path
+        name: packageId
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditPackage'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Package'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Edit metadata about a package
+      tags:
+      - Packages
+  /packages_external:
+    get:
+      description: "\nThis endpoint returns the list of packages in your repository\
+        \ that come from external sources, like\nTorizonCore images published by Toradex.\
+        \ Can be filtered by package name.\n        "
+      operationId: getPackages_external
+      parameters:
+      - explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: idContains
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_ExternalPackage'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+      summary: Retrieve metadata about packages in your repository from other sources
+      tags:
+      - Packages
+  /packages_external/info:
+    get:
+      description: "\nThis endpoint fetches information about external package sources\
+        \ authorized in your repository. External\npackage sources are how you can\
+        \ safely include packages from other sources in your repository. For example,\n\
+        TorizonCore OS images and bootloader binaries published by Toradex are published\
+        \ as an external package\nsource, and trusted by your repository by default.\n\
+        \        "
+      operationId: getPackages_externalInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map_DelegatedRoleName_DelegationInfo'
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Fetch information about external package sources
+      tags:
+      - Packages
+  /packages_external/refresh/{source_file_name}:
+    get:
+      description: "\nThis endpoint refreshes the list of packages in your repository\
+        \ that come from the specified external source.\nFor example \"tdx-nightly.json\"\
+        \ is the external source for all Toradex-published TorizonCore nightly builds.\n\
+        \nExternal package sources can expire periodically, with the expiration date\
+        \ set by the external publisher. This\nhelps ensure that package lists remain\
+        \ fresh and up to date. Your devices will not install packages from an\nexpired\
+        \ source. Calling this endpoint will attempt to fetch the latest info from\
+        \ the external publisher.\n        "
+      operationId: getPackages_externalRefreshSource_file_name
+      parameters:
+      - explode: false
+        in: path
+        name: source_file_name
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Refresh metadata from an external package source
+      tags:
+      - Packages
+  /updates:
+    patch:
+      description: "\nCancels any pending update for a list of devices. Note that\
+        \ this endpoint does not accept fleet UUIDs,\nonly device UUIDs.\n\nUpdates\
+        \ can only be cancelled when they are Pending. After the device has received\
+        \ its update instructions,\nthe update can no longer be cancelled from the\
+        \ server side.\n        "
+      operationId: patchUpdates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              items:
+                format: uuid
+                type: string
+              type: array
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  format: uuid
+                  type: string
+                type: array
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Cancel a pending update for one or more devices
+      tags:
+      - Updates
+    post:
+      description: "\nThis endpoint launches a software update. You can specify a\
+        \ list of packages to be installed, and a list of\ndevices and/or fleets that\
+        \ the packages should be installed on. If you specify multiple packages, it\
+        \ will be\ntreated as a [synchronous update](https://developer.toradex.com/torizon/torizon-platform/torizon-updates/torizon-updates-technical-overview/#synchronous-updates-540).\n\
+        \nIt is also possible to add custom metadata or a custom download URI when\
+        \ creating the update. This example\nsends a synchronous update containing\
+        \ application package `foo-1.0` and OS package `bar-1.0` to a single\ndevice,\
+        \ adding a custom download URI for the application package:\n\n```\n{\n  \"\
+        packageIds\": [\n    \"foo-1.0\",\n    \"bar-1.0\"\n  ],\n  \"custom\": {\n\
+        \    \"foo-1.0\": {\n      \"uri\": \"https://example.com/files/foo-1.0.yaml\"\
+        ,\n    }\n  },\n  \"devices\": [\n    \"3fa85f64-5717-4562-b3fc-2c963f66afa6\"\
+        \n  ]\n}\n        "
+      operationId: postUpdates
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCreateResult'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Launch an update to one or more devices or fleets
+      tags:
+      - Updates
+  /lockboxes/{lockbox_name}:
+    get:
+      description: "\nUptane metadata defines what packages are included in a lockbox.\
+        \ It is signed with a key specific to the\noffline updates role, and lists\
+        \ the valid packages (including their hashes) for a particular lockbox.\n\n\
+        This endpoint returns the full Uptane metadata for a given lockbox.\n    \
+        \    "
+      operationId: getLockboxesLockbox_name
+      parameters:
+      - explode: false
+        in: path
+        name: lockbox_name
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: version
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JsonSignedPayload'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Get the raw Uptane metadata for a lockbox
+      tags:
+      - Updates
+    post:
+      description: "\nSee the [secure offline updates](https://developer.toradex.com/torizon/torizon-platform/torizon-updates/how-to-use-secure-offline-updates-with-torizoncore/)\n\
+        documentation for background on this feature.\n\nThis endpoint will create\
+        \ a new lockbox with the specified name, or update the contents of a previously\n\
+        defined lockbox, if one with the specified name already exists.\n\nThe schema\
+        \ of the request body is similar to the [POST /updates](#/Updates/postUpdates)\
+        \ endpoint, with\nthe principal difference that offline updates are not assigned\
+        \ to specific devices or fleets. Instead,\nlockboxes define which update packages\
+        \ are _valid_ for install via an offline update.\n\nIt is still possible to\
+        \ add custom metadata when generating a lockbox, but custom URIs will be ignored\n\
+        during an offline update, as the device will get its files directly from the\
+        \ lockbox rather than fetching\nover the network.\n\nThis endpoint can also\
+        \ be used to effectively revoke an existing lockbox. You can revoke a lockbox\
+        \ by\nupdating it so that it does not contain any packages.\n        "
+      operationId: postLockboxesLockbox_name
+      parameters:
+      - explode: false
+        in: path
+        name: lockbox_name
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLockboxRequest'
+        required: true
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: "Define a new lockbox, or update an existing one"
+      tags:
+      - Updates
+  /lockboxes:
+    get:
+      description: "\nReturns a list of lockbox names.\n\nNote that _all_ lockboxes\
+        \ will be returned, including lockboxes that are expired, or that do not contain\n\
+        any packages.\n        "
+      operationId: getLockboxes
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: List all existing lockboxes on the repository
+      tags:
+      - Updates
+  /lockbox-details:
+    get:
+      description: "\nReturns a JSON object containing all lockbox metadata. The object\
+        \ has the lockbox name as a key, and the\ncomplete metadata contents (same\
+        \ as returned by the [GET /lockboxes/{lockbox_name}](#/Updates/getLockboxesLockbox_name)\n\
+        endpoint) as a value.\n\nNote that _all_ lockboxes will be returned, including\
+        \ lockboxes that are expired, or that do not contain\nany packages.\n    \
+        \    "
+      operationId: getLockbox-details
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Map_LockboxName_JsonSignedPayload'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: "List all existing lockboxes on the repository, and their detailed\
+        \ contents"
+      tags:
+      - Updates
+  /device-data/metric-names:
+    get:
+      description: "\nLists the metrics available in your repository.\n\nIn the default\
+        \ TorizonCore configuration, devices will report certain default metrics.\
+        \ You can also\nadd your own metrics, as described in the [TorizonCore documentation](https://developer.toradex.com/torizon/torizon-platform/device-monitoring-in-torizoncore/#customizing-device-metrics-for-torizon-platform).\n\
+        Calling this endpoint will give you the list of valid metric names for your\
+        \ repository; generally this\nwill include the default set plus any that you\
+        \ have defined yourself.\n\nYou can optionally specify a time interval in\
+        \ Unix Epoch milliseconds via the `from` and `to` query parameters.\nThis\
+        \ will return the list of metrics reported by devices in your repository during\
+        \ that specific interval.\n        "
+      operationId: getDevice-dataMetric-names
+      parameters:
+      - explode: true
+        in: query
+        name: from
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: false
+        schema:
+          format: int64
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginationResult_String'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Get the list of metrics available in your repository
+      tags:
+      - Device Metrics
+  /device-data/devices/{deviceUuid}/metrics:
+    get:
+      description: "\nThis endpoint will return time-bucketed data as reported by\
+        \ the specified device. You must specify a time interval in \nUnix Epoch milliseconds\
+        \ via the `from` and `to` query parameters.\n\nYou can optionally specify\
+        \ one or more metrics in the query parameter (e.g. `metrics=metric1&metrics=metrics2`,\
+        \ etc. \nOR `metrics[]=metric1,metrics2`, etc.). If you do not specify, you\
+        \ will get all metrics available in the repository.\n\nYou can also specify\
+        \ a `resolution`. This parameter defaults to 200, with a maximum permitted\
+        \ value of 2000, and \ndetermines the granularity of the data returned. The\
+        \ data returned will be separated into buckets, with each bucket \nrepresenting\
+        \ the mean value of the data returned during that period.\n\nFor example,\
+        \ suppose you have a device reporting its CPU temperature every minute. You\
+        \ request that metric, with a \nresolution of 24 and a time interval that\
+        \ is 1 day long. You will get back 24 data points, each representing a\none-hour\
+        \ slice of time. The value returned for each one-hour slice will be the average\
+        \ of the 60 reported \nmeasurements that the device sent during that hour.\n\
+        \        "
+      operationId: getDevice-dataDevicesDeviceuuidMetrics
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: metric
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: from
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: resolution
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsResponse'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Get metrics data from a single device
+      tags:
+      - Device Metrics
+  /device-data/fleets/{fleetId}/metrics:
+    get:
+      description: "\nThis endpoint will return aggregated time-bucketed data as reported\
+        \ by the devices in the specified fleet. You must \nspecify a time interval\
+        \ in Unix Epoch milliseconds via the `from` and `to` query parameters. \n\n\
+        You can also specify a `resolution`. This parameter defaults to 200, with\
+        \ a maximum permitted value of 2000, and \ndetermines the granularity of the\
+        \ data returned. The data returned will be separated into buckets, with each\
+        \ bucket \nrepresenting the aggregated data from the period. For example,\
+        \ if you specify a one day long time interval with a\nresolution of 24, you\
+        \ will get 24 buckets, each representing a one hour slice of the day. If you\
+        \ request a resolution \nof 48, your buckets will be 30 minutes long.\n\n\
+        You also must specify one or more metrics as query parameters (e.g. `metrics=metric1&metrics=metrics2`,\
+        \ etc. OR \n`metrics[]=metric1,metrics2`, etc.). For each metric you specify,\
+        \ you will get back four different series of datapoints: \n\n* `{metric}-count`\
+        \ reports how many devices in the fleet actually reported data during this\
+        \ time interval.\n* `{metric}-avg` reports the average value of all reported\
+        \ values for the metric in the period. Note that the average \nis over the\
+        \ number of devices that reported data: devices that didn't report the metric\
+        \ during the interval will not\nbe reflected in this datapoint.\n* `{metric}-max`\
+        \ gives the highest value reported by a device in the specified interval\n\
+        * `{metric}-min` gives the lowest value reported by a device in the specified\
+        \ interval\n        "
+      operationId: getDevice-dataFleetsFleetidMetrics
+      parameters:
+      - explode: false
+        in: path
+        name: fleetId
+        required: true
+        schema:
+          format: uuid
+          type: string
+        style: simple
+      - explode: true
+        in: query
+        name: metric
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - explode: true
+        in: query
+        name: from
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: to
+        required: true
+        schema:
+          format: int64
+          type: integer
+        style: form
+      - explode: true
+        in: query
+        name: resolution
+        required: false
+        schema:
+          format: int32
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetricsResponse'
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpstreamEndpointErrorRepr'
+          description: Bad Request
+        "416":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RangeNotSatisfiableRepr'
+          description: Range not Satisfiable
+      summary: Get aggregated metrics data from a fleet of devices
+      tags:
+      - Device Metrics
+components:
+  schemas:
+    Average:
+      type: object
+    BadRequestRepr:
+      properties:
+        msg:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        cause:
+          type: string
+        errorId:
+          format: uuid
+          type: string
+      required:
+      - code
+      - msg
+      type: object
+    ClientSignature:
+      example:
+        sig: sig
+        method: null
+        keyid: keyid
+      properties:
+        keyid:
+          type: string
+        method:
+          $ref: '#/components/schemas/SignatureMethod'
+        sig:
+          type: string
+      required:
+      - keyid
+      - method
+      - sig
+      type: object
+    ConflictRepr:
+      properties:
+        msg:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        cause:
+          type: string
+        errorId:
+          format: uuid
+          type: string
+      required:
+      - code
+      - msg
+      type: object
+    Count:
+      type: object
+    CreateFleet:
+      example:
+        expression: expression
+        fleetType: null
+        name: name
+      properties:
+        name:
+          type: string
+        fleetType:
+          $ref: '#/components/schemas/FleetType'
+        expression:
+          type: string
+      required:
+      - fleetType
+      - name
+      type: object
+    CreateLockboxRequest:
+      example:
+        custom:
+          key:
+            metadata: metadata
+            uri: https://openapi-generator.tech
+        packageIds:
+        - packageIds
+        - packageIds
+        expiresAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        packageIds:
+          items:
+            type: string
+          type: array
+        custom:
+          additionalProperties:
+            $ref: '#/components/schemas/CustomUpdateData'
+          type: object
+        expiresAt:
+          format: date-time
+          type: string
+      type: object
+    CustomUpdateData:
+      example:
+        metadata: metadata
+        uri: https://openapi-generator.tech
+      properties:
+        uri:
+          format: uri
+          type: string
+        metadata:
+          type: string
+      type: object
+    DelegationInfo:
+      properties:
+        lastFetched:
+          format: date-time
+          type: string
+        remoteUri:
+          format: uri
+          type: string
+        friendlyName:
+          type: string
+      type: object
+    DeviceCreateReq:
+      example:
+        deviceName: deviceName
+        deviceId: deviceId
+      properties:
+        deviceName:
+          type: string
+        deviceId:
+          type: string
+      required:
+      - deviceId
+      type: object
+    DeviceInfoBasic:
+      example:
+        deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        lastSeen: 2000-01-23T04:56:07.000+00:00
+        notes: notes
+        activatedAt: 2000-01-23T04:56:07.000+00:00
+        deviceName: deviceName
+        deviceId: deviceId
+        deviceStatus: null
+      pattern: "^[A-Z].*"
+      properties:
+        deviceUuid:
+          format: uuid
+          type: string
+        deviceName:
+          type: string
+        deviceId:
+          type: string
+        lastSeen:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        activatedAt:
+          format: date-time
+          type: string
+        deviceStatus:
+          $ref: '#/components/schemas/DeviceStatus'
+        notes:
+          type: string
+      required:
+      - createdAt
+      - deviceId
+      - deviceName
+      - deviceStatus
+      - deviceUuid
+      type: object
+    DeviceInfoExtended:
+      example:
+        deviceTags:
+        - _1: _1
+          _2: _2
+        - _1: _1
+          _2: _2
+        deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        notes: notes
+        devicePackages:
+        - component: component
+          name: name
+          checksum: checksum
+          version: version
+        - component: component
+          name: name
+          checksum: checksum
+          version: version
+        activatedAt: 2000-01-23T04:56:07.000+00:00
+        deviceName: deviceName
+        deviceId: deviceId
+        deviceStatus: null
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        lastUpdated: 2000-01-23T04:56:07.000+00:00
+        deviceFleets:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          expression: expression
+          fleetType: null
+          name: name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          expression: expression
+          fleetType: null
+          name: name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        lastSeen: 2000-01-23T04:56:07.000+00:00
+        networkInfo:
+          deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          hostname: hostname
+          macAddress: macAddress
+          localIpV4: localIpV4
+      properties:
+        deviceUuid:
+          format: uuid
+          type: string
+        deviceName:
+          type: string
+        deviceId:
+          type: string
+        lastSeen:
+          format: date-time
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        activatedAt:
+          format: date-time
+          type: string
+        deviceStatus:
+          $ref: '#/components/schemas/DeviceStatus'
+        notes:
+          type: string
+        lastUpdated:
+          format: date-time
+          type: string
+        deviceFleets:
+          items:
+            $ref: '#/components/schemas/Fleet'
+          type: array
+        devicePackages:
+          items:
+            $ref: '#/components/schemas/DevicePackage'
+          type: array
+        deviceTags:
+          items:
+            $ref: '#/components/schemas/Tuple2_DeviceTagId_DeviceTagValue'
+          type: array
+        networkInfo:
+          $ref: '#/components/schemas/NetworkInfo'
+      required:
+      - createdAt
+      - deviceId
+      - deviceName
+      - deviceStatus
+      - deviceUuid
+      - networkInfo
+      type: object
+    DevicePackage:
+      example:
+        component: component
+        name: name
+        checksum: checksum
+        version: version
+      properties:
+        component:
+          type: string
+        name:
+          type: string
+        version:
+          type: string
+        checksum:
+          type: string
+      required:
+      - checksum
+      - component
+      - name
+      - version
+      type: object
+    DevicePackages:
+      example:
+        deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        installedPackages:
+        - installed:
+            checksum: checksum
+            packageVersion: packageVersion
+            packageName: packageName
+          component: component
+        - installed:
+            checksum: checksum
+            packageVersion: packageVersion
+            packageName: packageName
+          component: component
+      properties:
+        deviceUuid:
+          format: uuid
+          type: string
+        installedPackages:
+          items:
+            $ref: '#/components/schemas/InstalledPackage'
+          type: array
+      required:
+      - deviceUuid
+      type: object
+    DeviceSort:
+      enum:
+      - Name
+      - DeviceId
+      - Uuid
+      - CreatedAt
+      - ActivatedAt
+      - LastSeen
+      type: string
+    DeviceSortDirection:
+      enum:
+      - Asc
+      - Desc
+      type: string
+    DeviceStatus:
+      enum:
+      - NotSeen
+      - Error
+      - UpToDate
+      - UpdatePending
+      - OutDated
+      type: string
+    EcuInfoImage:
+      example:
+        filepath: filepath
+        size: 0
+        hash: hash
+      properties:
+        filepath:
+          type: string
+        size:
+          format: int64
+          type: integer
+        hash:
+          format: checksum
+          type: string
+      required:
+      - filepath
+      - hash
+      - size
+      type: object
+    EcuInfoResponse:
+      example:
+        image:
+          filepath: filepath
+          size: 0
+          hash: hash
+        hardwareId: hardwareId
+        id: id
+        primary: true
+      properties:
+        id:
+          type: string
+        hardwareId:
+          type: string
+        primary:
+          type: boolean
+        image:
+          $ref: '#/components/schemas/EcuInfoImage'
+      required:
+      - hardwareId
+      - id
+      - image
+      - primary
+      type: object
+    EditPackage:
+      example:
+        proprietaryMeta: proprietaryMeta
+        comment: comment
+        hardwareIds:
+        - hardwareIds
+        - hardwareIds
+        uri: https://openapi-generator.tech
+      properties:
+        hardwareIds:
+          items:
+            type: string
+          type: array
+        uri:
+          format: uri
+          type: string
+        proprietaryMeta:
+          type: string
+        comment:
+          type: string
+      type: object
+    ErrorRepresentation:
+      example:
+        code: code
+        description: description
+        cause: cause
+        errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+        cause:
+          type: string
+        errorId:
+          format: uuid
+          type: string
+      required:
+      - code
+      - description
+      type: object
+    ExternalPackage:
+      example:
+        delegationOrigin: delegationOrigin
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        size: 0
+        pkgType: pkgType
+        name: name
+        packageId: packageId
+        hashes:
+          key: hashes
+        proprietaryMeta: proprietaryMeta
+        hardwareIds:
+        - hardwareIds
+        - hardwareIds
+        version: version
+        uri: https://openapi-generator.tech
+      properties:
+        name:
+          type: string
+        delegationOrigin:
+          type: string
+        version:
+          type: string
+        packageId:
+          type: string
+        size:
+          format: int64
+          type: integer
+        hashes:
+          additionalProperties:
+            type: string
+          type: object
+        pkgType:
+          type: string
+        hardwareIds:
+          items:
+            type: string
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        uri:
+          format: uri
+          type: string
+        proprietaryMeta:
+          type: string
+      required:
+      - delegationOrigin
+      - hashes
+      - name
+      - packageId
+      - size
+      - version
+      type: object
+    FileInfo:
+      example:
+        hashes: hashes
+        length: 0
+      properties:
+        hashes:
+          format: checksum
+          type: string
+        length:
+          format: int64
+          type: integer
+      required:
+      - hashes
+      - length
+      type: object
+    Fleet:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        expression: expression
+        fleetType: null
+        name: name
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      pattern: "^[A-Z].*"
+      properties:
+        id:
+          format: uuid
+          type: string
+        name:
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        fleetType:
+          $ref: '#/components/schemas/FleetType'
+        expression:
+          type: string
+      required:
+      - createdAt
+      - fleetType
+      - id
+      - name
+      type: object
+    FleetType:
+      enum:
+      - static
+      - dynamic
+      type: string
+    Image:
+      example:
+        filepath: filepath
+        fileinfo:
+          hashes: hashes
+          length: 0
+      properties:
+        filepath:
+          type: string
+        fileinfo:
+          $ref: '#/components/schemas/FileInfo'
+      required:
+      - fileinfo
+      - filepath
+      type: object
+    InstalledPackage:
+      example:
+        installed:
+          checksum: checksum
+          packageVersion: packageVersion
+          packageName: packageName
+        component: component
+      properties:
+        component:
+          type: string
+        installed:
+          $ref: '#/components/schemas/PackageInfo'
+      required:
+      - component
+      - installed
+      type: object
+    JsonSignedPayload:
+      example:
+        signed: ""
+        signatures:
+        - sig: sig
+          method: null
+          keyid: keyid
+        - sig: sig
+          method: null
+          keyid: keyid
+      properties:
+        signatures:
+          items:
+            $ref: '#/components/schemas/ClientSignature'
+          type: array
+        signed: {}
+      required:
+      - signed
+      type: object
+    Last:
+      type: object
+    Map_DelegatedRoleName_DelegationInfo:
+      additionalProperties:
+        $ref: '#/components/schemas/DelegationInfo'
+      type: object
+    Map_EcuIdentifier_ErrorRepresentation:
+      additionalProperties:
+        $ref: '#/components/schemas/ErrorRepresentation'
+      type: object
+    Map_EcuIdentifier_TargetImage:
+      additionalProperties:
+        $ref: '#/components/schemas/TargetImage'
+      type: object
+    Map_LockboxName_JsonSignedPayload:
+      additionalProperties:
+        $ref: '#/components/schemas/JsonSignedPayload'
+      type: object
+    Map_PackageId_CustomUpdateData:
+      additionalProperties:
+        $ref: '#/components/schemas/CustomUpdateData'
+      type: object
+    Map_Value_Refined_String_ValidChecksum:
+      additionalProperties:
+        type: string
+      type: object
+    Max:
+      type: object
+    MetricsResponse:
+      example:
+        series:
+        - meta:
+            deviceIds:
+            - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            aggregation:
+              bucket: bucket
+              method: null
+          name: name
+          points:
+          - _1: 0
+            _2: 6.027456183070403
+          - _1: 0
+            _2: 6.027456183070403
+        - meta:
+            deviceIds:
+            - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+            aggregation:
+              bucket: bucket
+              method: null
+          name: name
+          points:
+          - _1: 0
+            _2: 6.027456183070403
+          - _1: 0
+            _2: 6.027456183070403
+      properties:
+        series:
+          items:
+            $ref: '#/components/schemas/Series'
+          type: array
+      type: object
+    Min:
+      type: object
+    NetworkInfo:
+      example:
+        deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        hostname: hostname
+        macAddress: macAddress
+        localIpV4: localIpV4
+      properties:
+        deviceUuid:
+          format: uuid
+          type: string
+        localIpV4:
+          type: string
+        hostname:
+          type: string
+        macAddress:
+          type: string
+      required:
+      - deviceUuid
+      type: object
+    None:
+      type: object
+    NotFoundRepr:
+      properties:
+        msg:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        cause:
+          type: string
+        errorId:
+          format: uuid
+          type: string
+      required:
+      - code
+      - msg
+      type: object
+    Package:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        size: 0
+        pkgType: pkgType
+        name: name
+        packageId: packageId
+        hashes:
+          key: hashes
+        proprietaryMeta: proprietaryMeta
+        comment: comment
+        hardwareIds:
+        - hardwareIds
+        - hardwareIds
+        version: version
+        uri: https://openapi-generator.tech
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        packageId:
+          type: string
+        size:
+          format: int64
+          type: integer
+        hashes:
+          additionalProperties:
+            type: string
+          type: object
+        pkgType:
+          type: string
+        hardwareIds:
+          items:
+            type: string
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        uri:
+          format: uri
+          type: string
+        proprietaryMeta:
+          type: string
+        comment:
+          type: string
+      required:
+      - hashes
+      - name
+      - packageId
+      - size
+      - version
+      type: object
+    PackageInfo:
+      example:
+        checksum: checksum
+        packageVersion: packageVersion
+        packageName: packageName
+      properties:
+        packageName:
+          type: string
+        packageVersion:
+          type: string
+        checksum:
+          type: string
+      required:
+      - checksum
+      - packageName
+      - packageVersion
+      type: object
+    PaginationResult_DeviceInfoBasic:
+      example:
+        total: 0
+        offset: 6
+        values:
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          lastSeen: 2000-01-23T04:56:07.000+00:00
+          notes: notes
+          activatedAt: 2000-01-23T04:56:07.000+00:00
+          deviceName: deviceName
+          deviceId: deviceId
+          deviceStatus: null
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          lastSeen: 2000-01-23T04:56:07.000+00:00
+          notes: notes
+          activatedAt: 2000-01-23T04:56:07.000+00:00
+          deviceName: deviceName
+          deviceId: deviceId
+          deviceStatus: null
+        limit: 1
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/DeviceInfoBasic'
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    PaginationResult_DevicePackages:
+      example:
+        total: 0
+        offset: 6
+        values:
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          installedPackages:
+          - installed:
+              checksum: checksum
+              packageVersion: packageVersion
+              packageName: packageName
+            component: component
+          - installed:
+              checksum: checksum
+              packageVersion: packageVersion
+              packageName: packageName
+            component: component
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          installedPackages:
+          - installed:
+              checksum: checksum
+              packageVersion: packageVersion
+              packageName: packageName
+            component: component
+          - installed:
+              checksum: checksum
+              packageVersion: packageVersion
+              packageName: packageName
+            component: component
+        limit: 1
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/DevicePackages'
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    PaginationResult_ExternalPackage:
+      example:
+        total: 6
+        offset: 1
+        values:
+        - delegationOrigin: delegationOrigin
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          size: 0
+          pkgType: pkgType
+          name: name
+          packageId: packageId
+          hashes:
+            key: hashes
+          proprietaryMeta: proprietaryMeta
+          hardwareIds:
+          - hardwareIds
+          - hardwareIds
+          version: version
+          uri: https://openapi-generator.tech
+        - delegationOrigin: delegationOrigin
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          size: 0
+          pkgType: pkgType
+          name: name
+          packageId: packageId
+          hashes:
+            key: hashes
+          proprietaryMeta: proprietaryMeta
+          hardwareIds:
+          - hardwareIds
+          - hardwareIds
+          version: version
+          uri: https://openapi-generator.tech
+        limit: 5
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/ExternalPackage'
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    PaginationResult_Fleet:
+      example:
+        total: 0
+        offset: 6
+        values:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          expression: expression
+          fleetType: null
+          name: name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          expression: expression
+          fleetType: null
+          name: name
+          id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        limit: 1
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/Fleet'
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    PaginationResult_NetworkInfo:
+      example:
+        total: 0
+        offset: 6
+        values:
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          hostname: hostname
+          macAddress: macAddress
+          localIpV4: localIpV4
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          hostname: hostname
+          macAddress: macAddress
+          localIpV4: localIpV4
+        limit: 1
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/NetworkInfo'
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    PaginationResult_Package:
+      example:
+        total: 6
+        offset: 1
+        values:
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          size: 0
+          pkgType: pkgType
+          name: name
+          packageId: packageId
+          hashes:
+            key: hashes
+          proprietaryMeta: proprietaryMeta
+          comment: comment
+          hardwareIds:
+          - hardwareIds
+          - hardwareIds
+          version: version
+          uri: https://openapi-generator.tech
+        - createdAt: 2000-01-23T04:56:07.000+00:00
+          size: 0
+          pkgType: pkgType
+          name: name
+          packageId: packageId
+          hashes:
+            key: hashes
+          proprietaryMeta: proprietaryMeta
+          comment: comment
+          hardwareIds:
+          - hardwareIds
+          - hardwareIds
+          version: version
+          uri: https://openapi-generator.tech
+        limit: 5
+      properties:
+        values:
+          items:
+            $ref: '#/components/schemas/Package'
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    PaginationResult_String:
+      example:
+        total: 0
+        offset: 6
+        values:
+        - values
+        - values
+        limit: 1
+      properties:
+        values:
+          items:
+            type: string
+          type: array
+        total:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        limit:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      type: object
+    ProvisionInfo:
+      example:
+        provisionedDevices: 0
+        gatewayUrl: https://openapi-generator.tech
+        standardDeviceLimit: 6
+        autoProvUrl: https://openapi-generator.tech
+        token: token
+      properties:
+        token:
+          type: string
+        autoProvUrl:
+          format: uri
+          type: string
+        gatewayUrl:
+          format: uri
+          type: string
+        provisionedDevices:
+          format: int32
+          type: integer
+        standardDeviceLimit:
+          format: int32
+          type: integer
+      required:
+      - autoProvUrl
+      - gatewayUrl
+      - provisionedDevices
+      - standardDeviceLimit
+      - token
+      type: object
+    QueueResponse:
+      example:
+        correlationId: correlationId
+        inFlight: true
+        targets:
+          key:
+            image:
+              filepath: filepath
+              fileinfo:
+                hashes: hashes
+                length: 0
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            uri: https://openapi-generator.tech
+      properties:
+        correlationId:
+          type: string
+        targets:
+          additionalProperties:
+            $ref: '#/components/schemas/TargetImage'
+          type: object
+        inFlight:
+          type: boolean
+      required:
+      - correlationId
+      - inFlight
+      - targets
+      type: object
+    RangeNotSatisfiableRepr:
+      properties:
+        msg:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        cause:
+          type: string
+        errorId:
+          format: uuid
+          type: string
+      required:
+      - code
+      - msg
+      type: object
+    Series:
+      example:
+        meta:
+          deviceIds:
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          aggregation:
+            bucket: bucket
+            method: null
+        name: name
+        points:
+        - _1: 0
+          _2: 6.027456183070403
+        - _1: 0
+          _2: 6.027456183070403
+      properties:
+        name:
+          type: string
+        meta:
+          $ref: '#/components/schemas/SeriesMeta'
+        points:
+          items:
+            $ref: '#/components/schemas/Tuple2_Long_Option_Double'
+          type: array
+      required:
+      - meta
+      - name
+      type: object
+    SeriesMeta:
+      example:
+        deviceIds:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        aggregation:
+          bucket: bucket
+          method: null
+      properties:
+        aggregation:
+          $ref: '#/components/schemas/TimeAggregation'
+        deviceIds:
+          items:
+            format: uuid
+            type: string
+          type: array
+      required:
+      - aggregation
+      type: object
+    SignatureMethod:
+      enum:
+      - rsassa-pss-sha256
+      - ed25519
+      - ecPrime256v1
+      type: string
+    SimpleDeviceInfo:
+      example:
+        deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: name
+        deviceId: deviceId
+      properties:
+        deviceUuid:
+          format: uuid
+          type: string
+        deviceId:
+          type: string
+        name:
+          type: string
+      required:
+      - deviceId
+      - deviceUuid
+      - name
+      type: object
+    SimpleDeviceNotAffectedInfo:
+      example:
+        deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        ecuErrors:
+          key:
+            code: code
+            description: description
+            cause: cause
+            errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: name
+        deviceId: deviceId
+      properties:
+        deviceUuid:
+          format: uuid
+          type: string
+        deviceId:
+          type: string
+        name:
+          type: string
+        ecuErrors:
+          additionalProperties:
+            $ref: '#/components/schemas/ErrorRepresentation'
+          type: object
+      required:
+      - deviceId
+      - deviceUuid
+      - ecuErrors
+      - name
+      type: object
+    TargetImage:
+      example:
+        image:
+          filepath: filepath
+          fileinfo:
+            hashes: hashes
+            length: 0
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        uri: https://openapi-generator.tech
+      properties:
+        image:
+          $ref: '#/components/schemas/Image'
+        uri:
+          format: uri
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - image
+      type: object
+    TimeAggregation:
+      example:
+        bucket: bucket
+        method: null
+      properties:
+        bucket:
+          type: string
+        method:
+          $ref: '#/components/schemas/TimeAggregationMethod'
+      required:
+      - bucket
+      - method
+      type: object
+    TimeAggregationMethod:
+      oneOf:
+      - $ref: '#/components/schemas/Average'
+      - $ref: '#/components/schemas/Count'
+      - $ref: '#/components/schemas/Last'
+      - $ref: '#/components/schemas/Max'
+      - $ref: '#/components/schemas/Min'
+      - $ref: '#/components/schemas/None'
+    Tuple2_DeviceTagId_DeviceTagValue:
+      example:
+        _1: _1
+        _2: _2
+      properties:
+        _1:
+          type: string
+        _2:
+          type: string
+      required:
+      - _1
+      - _2
+      type: object
+    Tuple2_Long_Option_Double:
+      example:
+        _1: 0
+        _2: 6.027456183070403
+      properties:
+        _1:
+          format: int64
+          type: integer
+        _2:
+          format: double
+          type: number
+      required:
+      - _1
+      type: object
+    UpdateCreateResult:
+      example:
+        notAffected:
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          ecuErrors:
+            key:
+              code: code
+              description: description
+              cause: cause
+              errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          deviceId: deviceId
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          ecuErrors:
+            key:
+              code: code
+              description: description
+              cause: cause
+              errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          deviceId: deviceId
+        affected:
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          deviceId: deviceId
+        - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: name
+          deviceId: deviceId
+      properties:
+        affected:
+          items:
+            $ref: '#/components/schemas/SimpleDeviceInfo'
+          type: array
+        notAffected:
+          items:
+            $ref: '#/components/schemas/SimpleDeviceNotAffectedInfo'
+          type: array
+      type: object
+    UpdateRequest:
+      example:
+        devices:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        custom:
+          key:
+            metadata: metadata
+            uri: https://openapi-generator.tech
+        fleets:
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        packageIds:
+        - packageIds
+        - packageIds
+      properties:
+        packageIds:
+          items:
+            type: string
+          type: array
+        custom:
+          additionalProperties:
+            $ref: '#/components/schemas/CustomUpdateData'
+          type: object
+        devices:
+          items:
+            format: uuid
+            type: string
+          type: array
+        fleets:
+          items:
+            format: uuid
+            type: string
+          type: array
+      type: object
+    UpstreamEndpointErrorRepr:
+      properties:
+        msg:
+          type: string
+        description:
+          type: string
+        code:
+          type: string
+        cause:
+          type: string
+        errorId:
+          format: uuid
+          type: string
+      required:
+      - code
+      - msg
+      type: object
+  securitySchemes:
+    BearerAuth:
+      scheme: bearer
+      type: http
+    Oauth2:
+      flows:
+        clientCredentials:
+          scopes:
+            profile: Default scope; automatically added and not currently used.
+          tokenUrl: https://kc.torizon.io/auth/realms/ota-users/protocol/openid-connect/token
+      type: oauth2
