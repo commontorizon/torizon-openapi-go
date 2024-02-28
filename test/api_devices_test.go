@@ -11,11 +11,10 @@ package openapi
 
 import (
 	"context"
-	"testing"
-
-	openapiclient "github.com/commontorizon/torizon-openapi-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"testing"
+	openapiclient "github.com/commontorizon/torizon-openapi-go"
 )
 
 func Test_openapi_DevicesAPIService(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService DeleteDevicesDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -38,7 +37,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevices", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.DevicesAPI.GetDevices(context.Background()).Execute()
 
@@ -50,7 +49,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -64,7 +63,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesNameDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -78,7 +77,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesNetwork", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.DevicesAPI.GetDevicesNetwork(context.Background()).Execute()
 
@@ -90,7 +89,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesNetworkDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -104,7 +103,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesNotesDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -118,7 +117,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesPackages", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.DevicesAPI.GetDevicesPackages(context.Background()).Execute()
 
@@ -130,7 +129,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesPackagesDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -144,7 +143,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesToken", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.DevicesAPI.GetDevicesToken(context.Background()).Execute()
 
@@ -156,7 +155,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesUptaneDeviceuuidAssignment", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -170,7 +169,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService GetDevicesUptaneDeviceuuidComponents", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -184,7 +183,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService PostDevices", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.DevicesAPI.PostDevices(context.Background()).Execute()
 
@@ -196,7 +195,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService PutDevicesNameDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 
@@ -209,7 +208,7 @@ func Test_openapi_DevicesAPIService(t *testing.T) {
 
 	t.Run("Test DevicesAPIService PutDevicesNotesDeviceuuid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var deviceUuid string
 

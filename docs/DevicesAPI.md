@@ -17,6 +17,7 @@ Method | HTTP request | Description
 [**GetDevicesUptaneDeviceuuidAssignment**](DevicesAPI.md#GetDevicesUptaneDeviceuuidAssignment) | **Get** /devices/uptane/{deviceUuid}/assignment | Show detailed information about the currently-assigned update for a single device
 [**GetDevicesUptaneDeviceuuidComponents**](DevicesAPI.md#GetDevicesUptaneDeviceuuidComponents) | **Get** /devices/uptane/{deviceUuid}/components | Get a list of the software components reported by a single device
 [**PostDevices**](DevicesAPI.md#PostDevices) | **Post** /devices | Manually create a new device
+[**PutDevicesHibernationDeviceuuid**](DevicesAPI.md#PutDevicesHibernationDeviceuuid) | **Put** /devices/hibernation/{deviceUuid} | Set the hibernation status of a device
 [**PutDevicesNameDeviceuuid**](DevicesAPI.md#PutDevicesNameDeviceuuid) | **Put** /devices/name/{deviceUuid} | Set the display name of a single device
 [**PutDevicesNotesDeviceuuid**](DevicesAPI.md#PutDevicesNotesDeviceuuid) | **Put** /devices/notes/{deviceUuid} | Set the device notes for a specific device
 
@@ -92,7 +93,7 @@ Name | Type | Description  | Notes
 
 ## GetDevices
 
-> PaginationResultDeviceInfoBasic GetDevices(ctx).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).SortBy(sortBy).SortDirection(sortDirection).Execute()
+> PaginationResultDeviceInfoBasic GetDevices(ctx).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).Hibernated(hibernated).Status(status).ActivatedAfter(activatedAfter).ActivatedBefore(activatedBefore).SortBy(sortBy).SortDirection(sortDirection).Execute()
 
 Query device information
 
@@ -107,6 +108,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+    "time"
 	openapiclient "github.com/commontorizon/torizon-openapi-go"
 )
 
@@ -115,12 +117,16 @@ func main() {
 	limit := int64(789) // int64 |  (optional)
 	deviceUuid := []string{"Inner_example"} // []string |  (optional)
 	nameContains := "nameContains_example" // string |  (optional)
+	hibernated := true // bool |  (optional)
+	status := openapiclient.DeviceStatus("NotSeen") // DeviceStatus |  (optional)
+	activatedAfter := time.Now() // time.Time |  (optional)
+	activatedBefore := time.Now() // time.Time |  (optional)
 	sortBy := openapiclient.DeviceSort("Name") // DeviceSort |  (optional)
 	sortDirection := openapiclient.DeviceSortDirection("Asc") // DeviceSortDirection |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DevicesAPI.GetDevices(context.Background()).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).SortBy(sortBy).SortDirection(sortDirection).Execute()
+	resp, r, err := apiClient.DevicesAPI.GetDevices(context.Background()).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).Hibernated(hibernated).Status(status).ActivatedAfter(activatedAfter).ActivatedBefore(activatedBefore).SortBy(sortBy).SortDirection(sortDirection).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DevicesAPI.GetDevices``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -145,6 +151,10 @@ Name | Type | Description  | Notes
  **limit** | **int64** |  | 
  **deviceUuid** | **[]string** |  | 
  **nameContains** | **string** |  | 
+ **hibernated** | **bool** |  | 
+ **status** | [**DeviceStatus**](DeviceStatus.md) |  | 
+ **activatedAfter** | **time.Time** |  | 
+ **activatedBefore** | **time.Time** |  | 
  **sortBy** | [**DeviceSort**](DeviceSort.md) |  | 
  **sortDirection** | [**DeviceSortDirection**](DeviceSortDirection.md) |  | 
 
@@ -919,6 +929,76 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: application/octet-stream, application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PutDevicesHibernationDeviceuuid
+
+> PutDevicesHibernationDeviceuuid(ctx, deviceUuid).UpdateHibernationStatusRequest(updateHibernationStatusRequest).Execute()
+
+Set the hibernation status of a device
+
+
+
+### Example
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	openapiclient "github.com/commontorizon/torizon-openapi-go"
+)
+
+func main() {
+	deviceUuid := "deviceUuid_example" // string | 
+	updateHibernationStatusRequest := *openapiclient.NewUpdateHibernationStatusRequest(false) // UpdateHibernationStatusRequest | 
+
+	configuration := openapiclient.NewConfiguration()
+	apiClient := openapiclient.NewAPIClient(configuration)
+	r, err := apiClient.DevicesAPI.PutDevicesHibernationDeviceuuid(context.Background(), deviceUuid).UpdateHibernationStatusRequest(updateHibernationStatusRequest).Execute()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error when calling `DevicesAPI.PutDevicesHibernationDeviceuuid``: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+	}
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**deviceUuid** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPutDevicesHibernationDeviceuuidRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **updateHibernationStatusRequest** | [**UpdateHibernationStatusRequest**](UpdateHibernationStatusRequest.md) |  | 
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[BearerAuth](../README.md#BearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: text/plain, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

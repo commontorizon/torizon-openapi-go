@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DeviceName** | Pointer to **string** |  | [optional] 
 **DeviceId** | **string** |  | 
+**Hibernated** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
@@ -70,6 +71,31 @@ and a boolean to check if the value has been set.
 
 SetDeviceId sets DeviceId field to given value.
 
+
+### GetHibernated
+
+`func (o *DeviceCreateReq) GetHibernated() bool`
+
+GetHibernated returns the Hibernated field if non-nil, zero value otherwise.
+
+### GetHibernatedOk
+
+`func (o *DeviceCreateReq) GetHibernatedOk() (*bool, bool)`
+
+GetHibernatedOk returns a tuple with the Hibernated field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHibernated
+
+`func (o *DeviceCreateReq) SetHibernated(v bool)`
+
+SetHibernated sets Hibernated field to given value.
+
+### HasHibernated
+
+`func (o *DeviceCreateReq) HasHibernated() bool`
+
+HasHibernated returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

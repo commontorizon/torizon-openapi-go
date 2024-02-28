@@ -30,6 +30,7 @@ type DeviceInfoExtended struct {
 	ActivatedAt *time.Time `json:"activatedAt,omitempty"`
 	DeviceStatus DeviceStatus `json:"deviceStatus"`
 	Notes *string `json:"notes,omitempty"`
+	Hibernated bool `json:"hibernated"`
 	LastUpdated *time.Time `json:"lastUpdated,omitempty"`
 	DeviceFleets []Fleet `json:"deviceFleets,omitempty"`
 	DevicePackages []DevicePackage `json:"devicePackages,omitempty"`
@@ -43,13 +44,14 @@ type _DeviceInfoExtended DeviceInfoExtended
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceInfoExtended(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, networkInfo NetworkInfo) *DeviceInfoExtended {
+func NewDeviceInfoExtended(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, hibernated bool, networkInfo NetworkInfo) *DeviceInfoExtended {
 	this := DeviceInfoExtended{}
 	this.DeviceUuid = deviceUuid
 	this.DeviceName = deviceName
 	this.DeviceId = deviceId
 	this.CreatedAt = createdAt
 	this.DeviceStatus = deviceStatus
+	this.Hibernated = hibernated
 	this.NetworkInfo = networkInfo
 	return &this
 }
@@ -278,6 +280,30 @@ func (o *DeviceInfoExtended) SetNotes(v string) {
 	o.Notes = &v
 }
 
+// GetHibernated returns the Hibernated field value
+func (o *DeviceInfoExtended) GetHibernated() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.Hibernated
+}
+
+// GetHibernatedOk returns a tuple with the Hibernated field value
+// and a boolean to check if the value has been set.
+func (o *DeviceInfoExtended) GetHibernatedOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Hibernated, true
+}
+
+// SetHibernated sets field value
+func (o *DeviceInfoExtended) SetHibernated(v bool) {
+	o.Hibernated = v
+}
+
 // GetLastUpdated returns the LastUpdated field value if set, zero value otherwise.
 func (o *DeviceInfoExtended) GetLastUpdated() time.Time {
 	if o == nil || IsNil(o.LastUpdated) {
@@ -454,6 +480,7 @@ func (o DeviceInfoExtended) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Notes) {
 		toSerialize["notes"] = o.Notes
 	}
+	toSerialize["hibernated"] = o.Hibernated
 	if !IsNil(o.LastUpdated) {
 		toSerialize["lastUpdated"] = o.LastUpdated
 	}
@@ -480,6 +507,7 @@ func (o *DeviceInfoExtended) UnmarshalJSON(data []byte) (err error) {
 		"deviceId",
 		"createdAt",
 		"deviceStatus",
+		"hibernated",
 		"networkInfo",
 	}
 

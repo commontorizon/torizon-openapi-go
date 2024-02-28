@@ -61,6 +61,36 @@ paths:
         style: form
       - explode: true
         in: query
+        name: hibernated
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          $ref: '#/components/schemas/DeviceStatus'
+        style: form
+      - explode: true
+        in: query
+        name: activatedAfter
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: activatedBefore
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
         name: sortBy
         required: false
         schema:
@@ -96,7 +126,11 @@ paths:
         \ short-lived\nprovisioning token (for example, as retrieved from the [GET\
         \ /devices/token](#/Devices/getDevicesToken) endpoint).\n\nYou can use this\
         \ endpoint to create devices in bulk, but you will then have to manually provision\
-        \ the individual\ncredentials onto each device.\n        "
+        \ the individual\ncredentials onto each device.\n\n`deviceId` must be specified.\
+        \ `deviceName` is optional; if not specified a random name will be generated.\n\
+        The `hibernated` parameter is optional, and defaults to `false`. If `hibernated`\
+        \ is set to `true`,\nthe device will automatically be placed in hibernation\
+        \ mode as soon as it is created.\n        "
       operationId: postDevices
       requestBody:
         content:
@@ -610,6 +644,48 @@ paths:
                 $ref: '#/components/schemas/NotFoundRepr'
           description: Resource Not Found
       summary: Get detailed information about a single device
+      tags:
+      - Devices
+  /devices/hibernation/{deviceUuid}:
+    put:
+      description: "\nDevices can be placed in _hibernation_ mode. When a device is\
+        \ hibernated, Torizon Cloud will respond to almost\nall requests from the\
+        \ device with a 403 HTTP status. It won't be able to check for or receive\
+        \ updates, send\nmetrics, or be available for remote access.\n\nDepending\
+        \ on your plan and billing contract, a hibernated device may not count towards\
+        \ your billable device\nquota. If you aren't sure how hibernated devices will\
+        \ affect your bill, contact Toradex sales.\n        "
+      operationId: putDevicesHibernationDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateHibernationStatusRequest'
+        required: true
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: "Invalid value for: body"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Set the hibernation status of a device
       tags:
       - Devices
   /fleets:
@@ -1783,6 +1859,7 @@ components:
       type: object
     DeviceCreateReq:
       example:
+        hibernated: true
         deviceName: deviceName
         deviceId: deviceId
       properties:
@@ -1790,6 +1867,8 @@ components:
           type: string
         deviceId:
           type: string
+        hibernated:
+          type: boolean
       required:
       - deviceId
       type: object
@@ -1799,6 +1878,7 @@ components:
         createdAt: 2000-01-23T04:56:07.000+00:00
         lastSeen: 2000-01-23T04:56:07.000+00:00
         notes: notes
+        hibernated: true
         activatedAt: 2000-01-23T04:56:07.000+00:00
         deviceName: deviceName
         deviceId: deviceId
@@ -1825,12 +1905,15 @@ components:
           $ref: '#/components/schemas/DeviceStatus'
         notes:
           type: string
+        hibernated:
+          type: boolean
       required:
       - createdAt
       - deviceId
       - deviceName
       - deviceStatus
       - deviceUuid
+      - hibernated
       type: object
     DeviceInfoExtended:
       example:
@@ -1850,6 +1933,7 @@ components:
           name: name
           checksum: checksum
           version: version
+        hibernated: true
         activatedAt: 2000-01-23T04:56:07.000+00:00
         deviceName: deviceName
         deviceId: deviceId
@@ -1894,6 +1978,8 @@ components:
           $ref: '#/components/schemas/DeviceStatus'
         notes:
           type: string
+        hibernated:
+          type: boolean
         lastUpdated:
           format: date-time
           type: string
@@ -1917,6 +2003,7 @@ components:
       - deviceName
       - deviceStatus
       - deviceUuid
+      - hibernated
       - networkInfo
       type: object
     DevicePackage:
@@ -1985,7 +2072,7 @@ components:
       - Error
       - UpToDate
       - UpdatePending
-      - OutDated
+      - Outdated
       type: string
     EcuInfoImage:
       example:
@@ -2404,6 +2491,7 @@ components:
           createdAt: 2000-01-23T04:56:07.000+00:00
           lastSeen: 2000-01-23T04:56:07.000+00:00
           notes: notes
+          hibernated: true
           activatedAt: 2000-01-23T04:56:07.000+00:00
           deviceName: deviceName
           deviceId: deviceId
@@ -2412,6 +2500,7 @@ components:
           createdAt: 2000-01-23T04:56:07.000+00:00
           lastSeen: 2000-01-23T04:56:07.000+00:00
           notes: notes
+          hibernated: true
           activatedAt: 2000-01-23T04:56:07.000+00:00
           deviceName: deviceName
           deviceId: deviceId
@@ -2966,6 +3055,15 @@ components:
           items:
             $ref: '#/components/schemas/SimpleDeviceNotAffectedInfo'
           type: array
+      type: object
+    UpdateHibernationStatusRequest:
+      example:
+        status: true
+      properties:
+        status:
+          type: boolean
+      required:
+      - status
       type: object
     UpdateRequest:
       example:

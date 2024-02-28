@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **ActivatedAt** | Pointer to **time.Time** |  | [optional] 
 **DeviceStatus** | [**DeviceStatus**](DeviceStatus.md) |  | 
 **Notes** | Pointer to **string** |  | [optional] 
+**Hibernated** | **bool** |  | 
 **LastUpdated** | Pointer to **time.Time** |  | [optional] 
 **DeviceFleets** | Pointer to [**[]Fleet**](Fleet.md) |  | [optional] 
 **DevicePackages** | Pointer to [**[]DevicePackage**](DevicePackage.md) |  | [optional] 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewDeviceInfoExtended
 
-`func NewDeviceInfoExtended(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, networkInfo NetworkInfo, ) *DeviceInfoExtended`
+`func NewDeviceInfoExtended(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, hibernated bool, networkInfo NetworkInfo, ) *DeviceInfoExtended`
 
 NewDeviceInfoExtended instantiates a new DeviceInfoExtended object
 This constructor will assign default values to properties that have it defined,
@@ -211,6 +212,26 @@ SetNotes sets Notes field to given value.
 `func (o *DeviceInfoExtended) HasNotes() bool`
 
 HasNotes returns a boolean if a field has been set.
+
+### GetHibernated
+
+`func (o *DeviceInfoExtended) GetHibernated() bool`
+
+GetHibernated returns the Hibernated field if non-nil, zero value otherwise.
+
+### GetHibernatedOk
+
+`func (o *DeviceInfoExtended) GetHibernatedOk() (*bool, bool)`
+
+GetHibernatedOk returns a tuple with the Hibernated field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHibernated
+
+`func (o *DeviceInfoExtended) SetHibernated(v bool)`
+
+SetHibernated sets Hibernated field to given value.
+
 
 ### GetLastUpdated
 

@@ -24,7 +24,7 @@ const (
 	ERROR DeviceStatus = "Error"
 	UP_TO_DATE DeviceStatus = "UpToDate"
 	UPDATE_PENDING DeviceStatus = "UpdatePending"
-	OUT_DATED DeviceStatus = "OutDated"
+	OUTDATED DeviceStatus = "Outdated"
 )
 
 // All allowed values of DeviceStatus enum
@@ -33,7 +33,7 @@ var AllowedDeviceStatusEnumValues = []DeviceStatus{
 	"Error",
 	"UpToDate",
 	"UpdatePending",
-	"OutDated",
+	"Outdated",
 }
 
 func (v *DeviceStatus) UnmarshalJSON(src []byte) error {

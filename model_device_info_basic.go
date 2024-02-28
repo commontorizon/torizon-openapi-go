@@ -30,6 +30,7 @@ type DeviceInfoBasic struct {
 	ActivatedAt *time.Time `json:"activatedAt,omitempty"`
 	DeviceStatus DeviceStatus `json:"deviceStatus"`
 	Notes *string `json:"notes,omitempty"`
+	Hibernated bool `json:"hibernated"`
 }
 
 type _DeviceInfoBasic DeviceInfoBasic
@@ -38,13 +39,14 @@ type _DeviceInfoBasic DeviceInfoBasic
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDeviceInfoBasic(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus) *DeviceInfoBasic {
+func NewDeviceInfoBasic(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, hibernated bool) *DeviceInfoBasic {
 	this := DeviceInfoBasic{}
 	this.DeviceUuid = deviceUuid
 	this.DeviceName = deviceName
 	this.DeviceId = deviceId
 	this.CreatedAt = createdAt
 	this.DeviceStatus = deviceStatus
+	this.Hibernated = hibernated
 	return &this
 }
 
@@ -272,6 +274,30 @@ func (o *DeviceInfoBasic) SetNotes(v string) {
 	o.Notes = &v
 }
 
+// GetHibernated returns the Hibernated field value
+func (o *DeviceInfoBasic) GetHibernated() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.Hibernated
+}
+
+// GetHibernatedOk returns a tuple with the Hibernated field value
+// and a boolean to check if the value has been set.
+func (o *DeviceInfoBasic) GetHibernatedOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Hibernated, true
+}
+
+// SetHibernated sets field value
+func (o *DeviceInfoBasic) SetHibernated(v bool) {
+	o.Hibernated = v
+}
+
 func (o DeviceInfoBasic) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -296,6 +322,7 @@ func (o DeviceInfoBasic) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Notes) {
 		toSerialize["notes"] = o.Notes
 	}
+	toSerialize["hibernated"] = o.Hibernated
 	return toSerialize, nil
 }
 
@@ -309,6 +336,7 @@ func (o *DeviceInfoBasic) UnmarshalJSON(data []byte) (err error) {
 		"deviceId",
 		"createdAt",
 		"deviceStatus",
+		"hibernated",
 	}
 
 	allProperties := make(map[string]interface{})

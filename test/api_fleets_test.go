@@ -11,11 +11,10 @@ package openapi
 
 import (
 	"context"
-	"testing"
-
-	openapiclient "github.com/commontorizon/torizon-openapi-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"testing"
+	openapiclient "github.com/commontorizon/torizon-openapi-go"
 )
 
 func Test_openapi_FleetsAPIService(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_openapi_FleetsAPIService(t *testing.T) {
 
 	t.Run("Test FleetsAPIService DeleteFleetsFleetid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var fleetId string
 
@@ -38,7 +37,7 @@ func Test_openapi_FleetsAPIService(t *testing.T) {
 
 	t.Run("Test FleetsAPIService DeleteFleetsFleetidDevices", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var fleetId string
 
@@ -51,7 +50,7 @@ func Test_openapi_FleetsAPIService(t *testing.T) {
 
 	t.Run("Test FleetsAPIService GetFleets", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FleetsAPI.GetFleets(context.Background()).Execute()
 
@@ -63,7 +62,7 @@ func Test_openapi_FleetsAPIService(t *testing.T) {
 
 	t.Run("Test FleetsAPIService GetFleetsFleetidDevices", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var fleetId string
 
@@ -77,7 +76,7 @@ func Test_openapi_FleetsAPIService(t *testing.T) {
 
 	t.Run("Test FleetsAPIService PostFleets", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.FleetsAPI.PostFleets(context.Background()).Execute()
 
@@ -89,7 +88,7 @@ func Test_openapi_FleetsAPIService(t *testing.T) {
 
 	t.Run("Test FleetsAPIService PostFleetsFleetidDevices", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var fleetId string
 

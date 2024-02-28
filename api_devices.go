@@ -18,6 +18,7 @@ import (
 	"net/url"
 	"strings"
 	"reflect"
+	"time"
 	"os"
 )
 
@@ -137,6 +138,10 @@ type ApiGetDevicesRequest struct {
 	limit *int64
 	deviceUuid *[]string
 	nameContains *string
+	hibernated *bool
+	status *DeviceStatus
+	activatedAfter *time.Time
+	activatedBefore *time.Time
 	sortBy *DeviceSort
 	sortDirection *DeviceSortDirection
 }
@@ -158,6 +163,26 @@ func (r ApiGetDevicesRequest) DeviceUuid(deviceUuid []string) ApiGetDevicesReque
 
 func (r ApiGetDevicesRequest) NameContains(nameContains string) ApiGetDevicesRequest {
 	r.nameContains = &nameContains
+	return r
+}
+
+func (r ApiGetDevicesRequest) Hibernated(hibernated bool) ApiGetDevicesRequest {
+	r.hibernated = &hibernated
+	return r
+}
+
+func (r ApiGetDevicesRequest) Status(status DeviceStatus) ApiGetDevicesRequest {
+	r.status = &status
+	return r
+}
+
+func (r ApiGetDevicesRequest) ActivatedAfter(activatedAfter time.Time) ApiGetDevicesRequest {
+	r.activatedAfter = &activatedAfter
+	return r
+}
+
+func (r ApiGetDevicesRequest) ActivatedBefore(activatedBefore time.Time) ApiGetDevicesRequest {
+	r.activatedBefore = &activatedBefore
 	return r
 }
 
@@ -233,6 +258,18 @@ func (a *DevicesAPIService) GetDevicesExecute(r ApiGetDevicesRequest) (*Paginati
 	}
 	if r.nameContains != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "nameContains", r.nameContains, "")
+	}
+	if r.hibernated != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "hibernated", r.hibernated, "")
+	}
+	if r.status != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "status", r.status, "")
+	}
+	if r.activatedAfter != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "activatedAfter", r.activatedAfter, "")
+	}
+	if r.activatedBefore != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "activatedBefore", r.activatedBefore, "")
 	}
 	if r.sortBy != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "")
@@ -1614,6 +1651,10 @@ provisioning token (for example, as retrieved from the [GET /devices/token](#/De
 
 You can use this endpoint to create devices in bulk, but you will then have to manually provision the individual
 credentials onto each device.
+
+`deviceId` must be specified. `deviceName` is optional; if not specified a random name will be generated.
+The `hibernated` parameter is optional, and defaults to `false`. If `hibernated` is set to `true`,
+the device will automatically be placed in hibernation mode as soon as it is created.
         
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -1736,6 +1777,137 @@ func (a *DevicesAPIService) PostDevicesExecute(r ApiPostDevicesRequest) (*os.Fil
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPutDevicesHibernationDeviceuuidRequest struct {
+	ctx context.Context
+	ApiService *DevicesAPIService
+	deviceUuid string
+	updateHibernationStatusRequest *UpdateHibernationStatusRequest
+}
+
+func (r ApiPutDevicesHibernationDeviceuuidRequest) UpdateHibernationStatusRequest(updateHibernationStatusRequest UpdateHibernationStatusRequest) ApiPutDevicesHibernationDeviceuuidRequest {
+	r.updateHibernationStatusRequest = &updateHibernationStatusRequest
+	return r
+}
+
+func (r ApiPutDevicesHibernationDeviceuuidRequest) Execute() (*http.Response, error) {
+	return r.ApiService.PutDevicesHibernationDeviceuuidExecute(r)
+}
+
+/*
+PutDevicesHibernationDeviceuuid Set the hibernation status of a device
+
+
+Devices can be placed in _hibernation_ mode. When a device is hibernated, Torizon Cloud will respond to almost
+all requests from the device with a 403 HTTP status. It won't be able to check for or receive updates, send
+metrics, or be available for remote access.
+
+Depending on your plan and billing contract, a hibernated device may not count towards your billable device
+quota. If you aren't sure how hibernated devices will affect your bill, contact Toradex sales.
+        
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param deviceUuid
+ @return ApiPutDevicesHibernationDeviceuuidRequest
+*/
+func (a *DevicesAPIService) PutDevicesHibernationDeviceuuid(ctx context.Context, deviceUuid string) ApiPutDevicesHibernationDeviceuuidRequest {
+	return ApiPutDevicesHibernationDeviceuuidRequest{
+		ApiService: a,
+		ctx: ctx,
+		deviceUuid: deviceUuid,
+	}
+}
+
+// Execute executes the request
+func (a *DevicesAPIService) PutDevicesHibernationDeviceuuidExecute(r ApiPutDevicesHibernationDeviceuuidRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DevicesAPIService.PutDevicesHibernationDeviceuuid")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/devices/hibernation/{deviceUuid}"
+	localVarPath = strings.Replace(localVarPath, "{"+"deviceUuid"+"}", url.PathEscape(parameterValueToString(r.deviceUuid, "deviceUuid")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.updateHibernationStatusRequest == nil {
+		return nil, reportError("updateHibernationStatusRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.updateHibernationStatusRequest
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotFoundRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }
 
 type ApiPutDevicesNameDeviceuuidRequest struct {

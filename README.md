@@ -105,6 +105,7 @@ Class | Method | HTTP request | Description
 *DevicesAPI* | [**GetDevicesUptaneDeviceuuidAssignment**](docs/DevicesAPI.md#getdevicesuptanedeviceuuidassignment) | **Get** /devices/uptane/{deviceUuid}/assignment | Show detailed information about the currently-assigned update for a single device
 *DevicesAPI* | [**GetDevicesUptaneDeviceuuidComponents**](docs/DevicesAPI.md#getdevicesuptanedeviceuuidcomponents) | **Get** /devices/uptane/{deviceUuid}/components | Get a list of the software components reported by a single device
 *DevicesAPI* | [**PostDevices**](docs/DevicesAPI.md#postdevices) | **Post** /devices | Manually create a new device
+*DevicesAPI* | [**PutDevicesHibernationDeviceuuid**](docs/DevicesAPI.md#putdeviceshibernationdeviceuuid) | **Put** /devices/hibernation/{deviceUuid} | Set the hibernation status of a device
 *DevicesAPI* | [**PutDevicesNameDeviceuuid**](docs/DevicesAPI.md#putdevicesnamedeviceuuid) | **Put** /devices/name/{deviceUuid} | Set the display name of a single device
 *DevicesAPI* | [**PutDevicesNotesDeviceuuid**](docs/DevicesAPI.md#putdevicesnotesdeviceuuid) | **Put** /devices/notes/{deviceUuid} | Set the device notes for a specific device
 *FleetsAPI* | [**DeleteFleetsFleetid**](docs/FleetsAPI.md#deletefleetsfleetid) | **Delete** /fleets/{fleetId} | Delete a fleet
@@ -182,6 +183,7 @@ Class | Method | HTTP request | Description
  - [Tuple2DeviceTagIdDeviceTagValue](docs/Tuple2DeviceTagIdDeviceTagValue.md)
  - [Tuple2LongOptionDouble](docs/Tuple2LongOptionDouble.md)
  - [UpdateCreateResult](docs/UpdateCreateResult.md)
+ - [UpdateHibernationStatusRequest](docs/UpdateHibernationStatusRequest.md)
  - [UpdateRequest](docs/UpdateRequest.md)
  - [UpstreamEndpointErrorRepr](docs/UpstreamEndpointErrorRepr.md)
 

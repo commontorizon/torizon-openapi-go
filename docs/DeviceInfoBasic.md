@@ -12,12 +12,13 @@ Name | Type | Description | Notes
 **ActivatedAt** | Pointer to **time.Time** |  | [optional] 
 **DeviceStatus** | [**DeviceStatus**](DeviceStatus.md) |  | 
 **Notes** | Pointer to **string** |  | [optional] 
+**Hibernated** | **bool** |  | 
 
 ## Methods
 
 ### NewDeviceInfoBasic
 
-`func NewDeviceInfoBasic(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, ) *DeviceInfoBasic`
+`func NewDeviceInfoBasic(deviceUuid string, deviceName string, deviceId string, createdAt time.Time, deviceStatus DeviceStatus, hibernated bool, ) *DeviceInfoBasic`
 
 NewDeviceInfoBasic instantiates a new DeviceInfoBasic object
 This constructor will assign default values to properties that have it defined,
@@ -206,6 +207,26 @@ SetNotes sets Notes field to given value.
 `func (o *DeviceInfoBasic) HasNotes() bool`
 
 HasNotes returns a boolean if a field has been set.
+
+### GetHibernated
+
+`func (o *DeviceInfoBasic) GetHibernated() bool`
+
+GetHibernated returns the Hibernated field if non-nil, zero value otherwise.
+
+### GetHibernatedOk
+
+`func (o *DeviceInfoBasic) GetHibernatedOk() (*bool, bool)`
+
+GetHibernatedOk returns a tuple with the Hibernated field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHibernated
+
+`func (o *DeviceInfoBasic) SetHibernated(v bool)`
+
+SetHibernated sets Hibernated field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

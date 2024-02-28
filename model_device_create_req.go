@@ -23,6 +23,7 @@ var _ MappedNullable = &DeviceCreateReq{}
 type DeviceCreateReq struct {
 	DeviceName *string `json:"deviceName,omitempty"`
 	DeviceId string `json:"deviceId"`
+	Hibernated *bool `json:"hibernated,omitempty"`
 }
 
 type _DeviceCreateReq DeviceCreateReq
@@ -101,6 +102,38 @@ func (o *DeviceCreateReq) SetDeviceId(v string) {
 	o.DeviceId = v
 }
 
+// GetHibernated returns the Hibernated field value if set, zero value otherwise.
+func (o *DeviceCreateReq) GetHibernated() bool {
+	if o == nil || IsNil(o.Hibernated) {
+		var ret bool
+		return ret
+	}
+	return *o.Hibernated
+}
+
+// GetHibernatedOk returns a tuple with the Hibernated field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *DeviceCreateReq) GetHibernatedOk() (*bool, bool) {
+	if o == nil || IsNil(o.Hibernated) {
+		return nil, false
+	}
+	return o.Hibernated, true
+}
+
+// HasHibernated returns a boolean if a field has been set.
+func (o *DeviceCreateReq) HasHibernated() bool {
+	if o != nil && !IsNil(o.Hibernated) {
+		return true
+	}
+
+	return false
+}
+
+// SetHibernated gets a reference to the given bool and assigns it to the Hibernated field.
+func (o *DeviceCreateReq) SetHibernated(v bool) {
+	o.Hibernated = &v
+}
+
 func (o DeviceCreateReq) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
@@ -115,6 +148,9 @@ func (o DeviceCreateReq) ToMap() (map[string]interface{}, error) {
 		toSerialize["deviceName"] = o.DeviceName
 	}
 	toSerialize["deviceId"] = o.DeviceId
+	if !IsNil(o.Hibernated) {
+		toSerialize["hibernated"] = o.Hibernated
+	}
 	return toSerialize, nil
 }
 

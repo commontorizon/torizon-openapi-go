@@ -11,11 +11,10 @@ package openapi
 
 import (
 	"context"
-	"testing"
-
-	openapiclient "github.com/commontorizon/torizon-openapi-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"testing"
+	openapiclient "github.com/commontorizon/torizon-openapi-go"
 )
 
 func Test_openapi_PackagesAPIService(t *testing.T) {
@@ -25,7 +24,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService DeletePackagesPackageid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var packageId string
 
@@ -38,7 +37,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService GetPackages", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.PackagesAPI.GetPackages(context.Background()).Execute()
 
@@ -50,7 +49,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService GetPackagesExternal", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.PackagesAPI.GetPackagesExternal(context.Background()).Execute()
 
@@ -62,7 +61,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService GetPackagesExternalInfo", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.PackagesAPI.GetPackagesExternalInfo(context.Background()).Execute()
 
@@ -74,7 +73,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService GetPackagesExternalRefreshSourceFileName", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var sourceFileName string
 
@@ -87,7 +86,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService PatchPackagesPackageid", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		var packageId string
 
@@ -101,7 +100,7 @@ func Test_openapi_PackagesAPIService(t *testing.T) {
 
 	t.Run("Test PackagesAPIService PostPackages", func(t *testing.T) {
 
-		t.Skip("skip test") // remove to run test
+		t.Skip("skip test")  // remove to run test
 
 		resp, httpRes, err := apiClient.PackagesAPI.PostPackages(context.Background()).Execute()
 
