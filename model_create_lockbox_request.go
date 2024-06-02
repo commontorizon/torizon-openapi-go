@@ -22,7 +22,7 @@ var _ MappedNullable = &CreateLockboxRequest{}
 type CreateLockboxRequest struct {
 	PackageIds []string `json:"packageIds,omitempty"`
 	Custom *map[string]CustomUpdateData `json:"custom,omitempty"`
-	ExpiresAt *time.Time `json:"expiresAt,omitempty"`
+	ExpiresAt NullableTime `json:"expiresAt,omitempty"`
 }
 
 // NewCreateLockboxRequest instantiates a new CreateLockboxRequest object
@@ -106,36 +106,46 @@ func (o *CreateLockboxRequest) SetCustom(v map[string]CustomUpdateData) {
 	o.Custom = &v
 }
 
-// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise.
+// GetExpiresAt returns the ExpiresAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CreateLockboxRequest) GetExpiresAt() time.Time {
-	if o == nil || IsNil(o.ExpiresAt) {
+	if o == nil || IsNil(o.ExpiresAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.ExpiresAt
+	return *o.ExpiresAt.Get()
 }
 
 // GetExpiresAtOk returns a tuple with the ExpiresAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CreateLockboxRequest) GetExpiresAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.ExpiresAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ExpiresAt, true
+	return o.ExpiresAt.Get(), o.ExpiresAt.IsSet()
 }
 
 // HasExpiresAt returns a boolean if a field has been set.
 func (o *CreateLockboxRequest) HasExpiresAt() bool {
-	if o != nil && !IsNil(o.ExpiresAt) {
+	if o != nil && o.ExpiresAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetExpiresAt gets a reference to the given time.Time and assigns it to the ExpiresAt field.
+// SetExpiresAt gets a reference to the given NullableTime and assigns it to the ExpiresAt field.
 func (o *CreateLockboxRequest) SetExpiresAt(v time.Time) {
-	o.ExpiresAt = &v
+	o.ExpiresAt.Set(&v)
+}
+// SetExpiresAtNil sets the value for ExpiresAt to be an explicit nil
+func (o *CreateLockboxRequest) SetExpiresAtNil() {
+	o.ExpiresAt.Set(nil)
+}
+
+// UnsetExpiresAt ensures that no value is present for ExpiresAt, not even an explicit nil
+func (o *CreateLockboxRequest) UnsetExpiresAt() {
+	o.ExpiresAt.Unset()
 }
 
 func (o CreateLockboxRequest) MarshalJSON() ([]byte, error) {
@@ -154,8 +164,8 @@ func (o CreateLockboxRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Custom) {
 		toSerialize["custom"] = o.Custom
 	}
-	if !IsNil(o.ExpiresAt) {
-		toSerialize["expiresAt"] = o.ExpiresAt
+	if o.ExpiresAt.IsSet() {
+		toSerialize["expiresAt"] = o.ExpiresAt.Get()
 	}
 	return toSerialize, nil
 }

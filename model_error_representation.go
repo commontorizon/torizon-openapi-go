@@ -23,8 +23,8 @@ var _ MappedNullable = &ErrorRepresentation{}
 type ErrorRepresentation struct {
 	Code string `json:"code"`
 	Description string `json:"description"`
-	Cause *string `json:"cause,omitempty"`
-	ErrorId *string `json:"errorId,omitempty"`
+	Cause NullableString `json:"cause,omitempty"`
+	ErrorId NullableString `json:"errorId,omitempty"`
 }
 
 type _ErrorRepresentation ErrorRepresentation
@@ -96,68 +96,88 @@ func (o *ErrorRepresentation) SetDescription(v string) {
 	o.Description = v
 }
 
-// GetCause returns the Cause field value if set, zero value otherwise.
+// GetCause returns the Cause field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ErrorRepresentation) GetCause() string {
-	if o == nil || IsNil(o.Cause) {
+	if o == nil || IsNil(o.Cause.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Cause
+	return *o.Cause.Get()
 }
 
 // GetCauseOk returns a tuple with the Cause field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ErrorRepresentation) GetCauseOk() (*string, bool) {
-	if o == nil || IsNil(o.Cause) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Cause, true
+	return o.Cause.Get(), o.Cause.IsSet()
 }
 
 // HasCause returns a boolean if a field has been set.
 func (o *ErrorRepresentation) HasCause() bool {
-	if o != nil && !IsNil(o.Cause) {
+	if o != nil && o.Cause.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCause gets a reference to the given string and assigns it to the Cause field.
+// SetCause gets a reference to the given NullableString and assigns it to the Cause field.
 func (o *ErrorRepresentation) SetCause(v string) {
-	o.Cause = &v
+	o.Cause.Set(&v)
+}
+// SetCauseNil sets the value for Cause to be an explicit nil
+func (o *ErrorRepresentation) SetCauseNil() {
+	o.Cause.Set(nil)
 }
 
-// GetErrorId returns the ErrorId field value if set, zero value otherwise.
+// UnsetCause ensures that no value is present for Cause, not even an explicit nil
+func (o *ErrorRepresentation) UnsetCause() {
+	o.Cause.Unset()
+}
+
+// GetErrorId returns the ErrorId field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *ErrorRepresentation) GetErrorId() string {
-	if o == nil || IsNil(o.ErrorId) {
+	if o == nil || IsNil(o.ErrorId.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ErrorId
+	return *o.ErrorId.Get()
 }
 
 // GetErrorIdOk returns a tuple with the ErrorId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *ErrorRepresentation) GetErrorIdOk() (*string, bool) {
-	if o == nil || IsNil(o.ErrorId) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ErrorId, true
+	return o.ErrorId.Get(), o.ErrorId.IsSet()
 }
 
 // HasErrorId returns a boolean if a field has been set.
 func (o *ErrorRepresentation) HasErrorId() bool {
-	if o != nil && !IsNil(o.ErrorId) {
+	if o != nil && o.ErrorId.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetErrorId gets a reference to the given string and assigns it to the ErrorId field.
+// SetErrorId gets a reference to the given NullableString and assigns it to the ErrorId field.
 func (o *ErrorRepresentation) SetErrorId(v string) {
-	o.ErrorId = &v
+	o.ErrorId.Set(&v)
+}
+// SetErrorIdNil sets the value for ErrorId to be an explicit nil
+func (o *ErrorRepresentation) SetErrorIdNil() {
+	o.ErrorId.Set(nil)
+}
+
+// UnsetErrorId ensures that no value is present for ErrorId, not even an explicit nil
+func (o *ErrorRepresentation) UnsetErrorId() {
+	o.ErrorId.Unset()
 }
 
 func (o ErrorRepresentation) MarshalJSON() ([]byte, error) {
@@ -172,11 +192,11 @@ func (o ErrorRepresentation) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["code"] = o.Code
 	toSerialize["description"] = o.Description
-	if !IsNil(o.Cause) {
-		toSerialize["cause"] = o.Cause
+	if o.Cause.IsSet() {
+		toSerialize["cause"] = o.Cause.Get()
 	}
-	if !IsNil(o.ErrorId) {
-		toSerialize["errorId"] = o.ErrorId
+	if o.ErrorId.IsSet() {
+		toSerialize["errorId"] = o.ErrorId.Get()
 	}
 	return toSerialize, nil
 }

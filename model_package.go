@@ -27,12 +27,12 @@ type Package struct {
 	PackageId string `json:"packageId"`
 	Size int64 `json:"size"`
 	Hashes map[string]string `json:"hashes"`
-	PkgType *string `json:"pkgType,omitempty"`
+	PkgType NullableString `json:"pkgType,omitempty"`
 	HardwareIds []string `json:"hardwareIds,omitempty"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Uri *string `json:"uri,omitempty"`
-	ProprietaryMeta *string `json:"proprietaryMeta,omitempty"`
-	Comment *string `json:"comment,omitempty"`
+	CreatedAt NullableTime `json:"createdAt,omitempty"`
+	Uri NullableString `json:"uri,omitempty"`
+	ProprietaryMeta NullableString `json:"proprietaryMeta,omitempty"`
+	Comment NullableString `json:"comment,omitempty"`
 }
 
 type _Package Package
@@ -179,36 +179,46 @@ func (o *Package) SetHashes(v map[string]string) {
 	o.Hashes = v
 }
 
-// GetPkgType returns the PkgType field value if set, zero value otherwise.
+// GetPkgType returns the PkgType field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Package) GetPkgType() string {
-	if o == nil || IsNil(o.PkgType) {
+	if o == nil || IsNil(o.PkgType.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.PkgType
+	return *o.PkgType.Get()
 }
 
 // GetPkgTypeOk returns a tuple with the PkgType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Package) GetPkgTypeOk() (*string, bool) {
-	if o == nil || IsNil(o.PkgType) {
+	if o == nil {
 		return nil, false
 	}
-	return o.PkgType, true
+	return o.PkgType.Get(), o.PkgType.IsSet()
 }
 
 // HasPkgType returns a boolean if a field has been set.
 func (o *Package) HasPkgType() bool {
-	if o != nil && !IsNil(o.PkgType) {
+	if o != nil && o.PkgType.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetPkgType gets a reference to the given string and assigns it to the PkgType field.
+// SetPkgType gets a reference to the given NullableString and assigns it to the PkgType field.
 func (o *Package) SetPkgType(v string) {
-	o.PkgType = &v
+	o.PkgType.Set(&v)
+}
+// SetPkgTypeNil sets the value for PkgType to be an explicit nil
+func (o *Package) SetPkgTypeNil() {
+	o.PkgType.Set(nil)
+}
+
+// UnsetPkgType ensures that no value is present for PkgType, not even an explicit nil
+func (o *Package) UnsetPkgType() {
+	o.PkgType.Unset()
 }
 
 // GetHardwareIds returns the HardwareIds field value if set, zero value otherwise.
@@ -243,132 +253,172 @@ func (o *Package) SetHardwareIds(v []string) {
 	o.HardwareIds = v
 }
 
-// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise.
+// GetCreatedAt returns the CreatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Package) GetCreatedAt() time.Time {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil || IsNil(o.CreatedAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.CreatedAt
+	return *o.CreatedAt.Get()
 }
 
 // GetCreatedAtOk returns a tuple with the CreatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Package) GetCreatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.CreatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.CreatedAt, true
+	return o.CreatedAt.Get(), o.CreatedAt.IsSet()
 }
 
 // HasCreatedAt returns a boolean if a field has been set.
 func (o *Package) HasCreatedAt() bool {
-	if o != nil && !IsNil(o.CreatedAt) {
+	if o != nil && o.CreatedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetCreatedAt gets a reference to the given time.Time and assigns it to the CreatedAt field.
+// SetCreatedAt gets a reference to the given NullableTime and assigns it to the CreatedAt field.
 func (o *Package) SetCreatedAt(v time.Time) {
-	o.CreatedAt = &v
+	o.CreatedAt.Set(&v)
+}
+// SetCreatedAtNil sets the value for CreatedAt to be an explicit nil
+func (o *Package) SetCreatedAtNil() {
+	o.CreatedAt.Set(nil)
 }
 
-// GetUri returns the Uri field value if set, zero value otherwise.
+// UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
+func (o *Package) UnsetCreatedAt() {
+	o.CreatedAt.Unset()
+}
+
+// GetUri returns the Uri field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Package) GetUri() string {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil || IsNil(o.Uri.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Uri
+	return *o.Uri.Get()
 }
 
 // GetUriOk returns a tuple with the Uri field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Package) GetUriOk() (*string, bool) {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uri, true
+	return o.Uri.Get(), o.Uri.IsSet()
 }
 
 // HasUri returns a boolean if a field has been set.
 func (o *Package) HasUri() bool {
-	if o != nil && !IsNil(o.Uri) {
+	if o != nil && o.Uri.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUri gets a reference to the given string and assigns it to the Uri field.
+// SetUri gets a reference to the given NullableString and assigns it to the Uri field.
 func (o *Package) SetUri(v string) {
-	o.Uri = &v
+	o.Uri.Set(&v)
+}
+// SetUriNil sets the value for Uri to be an explicit nil
+func (o *Package) SetUriNil() {
+	o.Uri.Set(nil)
 }
 
-// GetProprietaryMeta returns the ProprietaryMeta field value if set, zero value otherwise.
+// UnsetUri ensures that no value is present for Uri, not even an explicit nil
+func (o *Package) UnsetUri() {
+	o.Uri.Unset()
+}
+
+// GetProprietaryMeta returns the ProprietaryMeta field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Package) GetProprietaryMeta() string {
-	if o == nil || IsNil(o.ProprietaryMeta) {
+	if o == nil || IsNil(o.ProprietaryMeta.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ProprietaryMeta
+	return *o.ProprietaryMeta.Get()
 }
 
 // GetProprietaryMetaOk returns a tuple with the ProprietaryMeta field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Package) GetProprietaryMetaOk() (*string, bool) {
-	if o == nil || IsNil(o.ProprietaryMeta) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ProprietaryMeta, true
+	return o.ProprietaryMeta.Get(), o.ProprietaryMeta.IsSet()
 }
 
 // HasProprietaryMeta returns a boolean if a field has been set.
 func (o *Package) HasProprietaryMeta() bool {
-	if o != nil && !IsNil(o.ProprietaryMeta) {
+	if o != nil && o.ProprietaryMeta.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetProprietaryMeta gets a reference to the given string and assigns it to the ProprietaryMeta field.
+// SetProprietaryMeta gets a reference to the given NullableString and assigns it to the ProprietaryMeta field.
 func (o *Package) SetProprietaryMeta(v string) {
-	o.ProprietaryMeta = &v
+	o.ProprietaryMeta.Set(&v)
+}
+// SetProprietaryMetaNil sets the value for ProprietaryMeta to be an explicit nil
+func (o *Package) SetProprietaryMetaNil() {
+	o.ProprietaryMeta.Set(nil)
 }
 
-// GetComment returns the Comment field value if set, zero value otherwise.
+// UnsetProprietaryMeta ensures that no value is present for ProprietaryMeta, not even an explicit nil
+func (o *Package) UnsetProprietaryMeta() {
+	o.ProprietaryMeta.Unset()
+}
+
+// GetComment returns the Comment field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Package) GetComment() string {
-	if o == nil || IsNil(o.Comment) {
+	if o == nil || IsNil(o.Comment.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Comment
+	return *o.Comment.Get()
 }
 
 // GetCommentOk returns a tuple with the Comment field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Package) GetCommentOk() (*string, bool) {
-	if o == nil || IsNil(o.Comment) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Comment, true
+	return o.Comment.Get(), o.Comment.IsSet()
 }
 
 // HasComment returns a boolean if a field has been set.
 func (o *Package) HasComment() bool {
-	if o != nil && !IsNil(o.Comment) {
+	if o != nil && o.Comment.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetComment gets a reference to the given string and assigns it to the Comment field.
+// SetComment gets a reference to the given NullableString and assigns it to the Comment field.
 func (o *Package) SetComment(v string) {
-	o.Comment = &v
+	o.Comment.Set(&v)
+}
+// SetCommentNil sets the value for Comment to be an explicit nil
+func (o *Package) SetCommentNil() {
+	o.Comment.Set(nil)
+}
+
+// UnsetComment ensures that no value is present for Comment, not even an explicit nil
+func (o *Package) UnsetComment() {
+	o.Comment.Unset()
 }
 
 func (o Package) MarshalJSON() ([]byte, error) {
@@ -386,23 +436,23 @@ func (o Package) ToMap() (map[string]interface{}, error) {
 	toSerialize["packageId"] = o.PackageId
 	toSerialize["size"] = o.Size
 	toSerialize["hashes"] = o.Hashes
-	if !IsNil(o.PkgType) {
-		toSerialize["pkgType"] = o.PkgType
+	if o.PkgType.IsSet() {
+		toSerialize["pkgType"] = o.PkgType.Get()
 	}
 	if !IsNil(o.HardwareIds) {
 		toSerialize["hardwareIds"] = o.HardwareIds
 	}
-	if !IsNil(o.CreatedAt) {
-		toSerialize["createdAt"] = o.CreatedAt
+	if o.CreatedAt.IsSet() {
+		toSerialize["createdAt"] = o.CreatedAt.Get()
 	}
-	if !IsNil(o.Uri) {
-		toSerialize["uri"] = o.Uri
+	if o.Uri.IsSet() {
+		toSerialize["uri"] = o.Uri.Get()
 	}
-	if !IsNil(o.ProprietaryMeta) {
-		toSerialize["proprietaryMeta"] = o.ProprietaryMeta
+	if o.ProprietaryMeta.IsSet() {
+		toSerialize["proprietaryMeta"] = o.ProprietaryMeta.Get()
 	}
-	if !IsNil(o.Comment) {
-		toSerialize["comment"] = o.Comment
+	if o.Comment.IsSet() {
+		toSerialize["comment"] = o.Comment.Get()
 	}
 	return toSerialize, nil
 }

@@ -21,9 +21,9 @@ var _ MappedNullable = &DeviceCreateReq{}
 
 // DeviceCreateReq struct for DeviceCreateReq
 type DeviceCreateReq struct {
-	DeviceName *string `json:"deviceName,omitempty"`
+	DeviceName NullableString `json:"deviceName,omitempty"`
 	DeviceId string `json:"deviceId"`
-	Hibernated *bool `json:"hibernated,omitempty"`
+	Hibernated NullableBool `json:"hibernated,omitempty"`
 }
 
 type _DeviceCreateReq DeviceCreateReq
@@ -46,36 +46,46 @@ func NewDeviceCreateReqWithDefaults() *DeviceCreateReq {
 	return &this
 }
 
-// GetDeviceName returns the DeviceName field value if set, zero value otherwise.
+// GetDeviceName returns the DeviceName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DeviceCreateReq) GetDeviceName() string {
-	if o == nil || IsNil(o.DeviceName) {
+	if o == nil || IsNil(o.DeviceName.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.DeviceName
+	return *o.DeviceName.Get()
 }
 
 // GetDeviceNameOk returns a tuple with the DeviceName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DeviceCreateReq) GetDeviceNameOk() (*string, bool) {
-	if o == nil || IsNil(o.DeviceName) {
+	if o == nil {
 		return nil, false
 	}
-	return o.DeviceName, true
+	return o.DeviceName.Get(), o.DeviceName.IsSet()
 }
 
 // HasDeviceName returns a boolean if a field has been set.
 func (o *DeviceCreateReq) HasDeviceName() bool {
-	if o != nil && !IsNil(o.DeviceName) {
+	if o != nil && o.DeviceName.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetDeviceName gets a reference to the given string and assigns it to the DeviceName field.
+// SetDeviceName gets a reference to the given NullableString and assigns it to the DeviceName field.
 func (o *DeviceCreateReq) SetDeviceName(v string) {
-	o.DeviceName = &v
+	o.DeviceName.Set(&v)
+}
+// SetDeviceNameNil sets the value for DeviceName to be an explicit nil
+func (o *DeviceCreateReq) SetDeviceNameNil() {
+	o.DeviceName.Set(nil)
+}
+
+// UnsetDeviceName ensures that no value is present for DeviceName, not even an explicit nil
+func (o *DeviceCreateReq) UnsetDeviceName() {
+	o.DeviceName.Unset()
 }
 
 // GetDeviceId returns the DeviceId field value
@@ -102,36 +112,46 @@ func (o *DeviceCreateReq) SetDeviceId(v string) {
 	o.DeviceId = v
 }
 
-// GetHibernated returns the Hibernated field value if set, zero value otherwise.
+// GetHibernated returns the Hibernated field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DeviceCreateReq) GetHibernated() bool {
-	if o == nil || IsNil(o.Hibernated) {
+	if o == nil || IsNil(o.Hibernated.Get()) {
 		var ret bool
 		return ret
 	}
-	return *o.Hibernated
+	return *o.Hibernated.Get()
 }
 
 // GetHibernatedOk returns a tuple with the Hibernated field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DeviceCreateReq) GetHibernatedOk() (*bool, bool) {
-	if o == nil || IsNil(o.Hibernated) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Hibernated, true
+	return o.Hibernated.Get(), o.Hibernated.IsSet()
 }
 
 // HasHibernated returns a boolean if a field has been set.
 func (o *DeviceCreateReq) HasHibernated() bool {
-	if o != nil && !IsNil(o.Hibernated) {
+	if o != nil && o.Hibernated.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetHibernated gets a reference to the given bool and assigns it to the Hibernated field.
+// SetHibernated gets a reference to the given NullableBool and assigns it to the Hibernated field.
 func (o *DeviceCreateReq) SetHibernated(v bool) {
-	o.Hibernated = &v
+	o.Hibernated.Set(&v)
+}
+// SetHibernatedNil sets the value for Hibernated to be an explicit nil
+func (o *DeviceCreateReq) SetHibernatedNil() {
+	o.Hibernated.Set(nil)
+}
+
+// UnsetHibernated ensures that no value is present for Hibernated, not even an explicit nil
+func (o *DeviceCreateReq) UnsetHibernated() {
+	o.Hibernated.Unset()
 }
 
 func (o DeviceCreateReq) MarshalJSON() ([]byte, error) {
@@ -144,12 +164,12 @@ func (o DeviceCreateReq) MarshalJSON() ([]byte, error) {
 
 func (o DeviceCreateReq) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.DeviceName) {
-		toSerialize["deviceName"] = o.DeviceName
+	if o.DeviceName.IsSet() {
+		toSerialize["deviceName"] = o.DeviceName.Get()
 	}
 	toSerialize["deviceId"] = o.DeviceId
-	if !IsNil(o.Hibernated) {
-		toSerialize["hibernated"] = o.Hibernated
+	if o.Hibernated.IsSet() {
+		toSerialize["hibernated"] = o.Hibernated.Get()
 	}
 	return toSerialize, nil
 }

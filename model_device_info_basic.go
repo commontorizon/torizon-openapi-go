@@ -25,11 +25,11 @@ type DeviceInfoBasic struct {
 	DeviceUuid string `json:"deviceUuid"`
 	DeviceName string `json:"deviceName"`
 	DeviceId string `json:"deviceId"`
-	LastSeen *time.Time `json:"lastSeen,omitempty"`
+	LastSeen NullableTime `json:"lastSeen,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
-	ActivatedAt *time.Time `json:"activatedAt,omitempty"`
+	ActivatedAt NullableTime `json:"activatedAt,omitempty"`
 	DeviceStatus DeviceStatus `json:"deviceStatus"`
-	Notes *string `json:"notes,omitempty"`
+	Notes NullableString `json:"notes,omitempty"`
 	Hibernated bool `json:"hibernated"`
 }
 
@@ -130,36 +130,46 @@ func (o *DeviceInfoBasic) SetDeviceId(v string) {
 	o.DeviceId = v
 }
 
-// GetLastSeen returns the LastSeen field value if set, zero value otherwise.
+// GetLastSeen returns the LastSeen field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DeviceInfoBasic) GetLastSeen() time.Time {
-	if o == nil || IsNil(o.LastSeen) {
+	if o == nil || IsNil(o.LastSeen.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.LastSeen
+	return *o.LastSeen.Get()
 }
 
 // GetLastSeenOk returns a tuple with the LastSeen field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DeviceInfoBasic) GetLastSeenOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.LastSeen) {
+	if o == nil {
 		return nil, false
 	}
-	return o.LastSeen, true
+	return o.LastSeen.Get(), o.LastSeen.IsSet()
 }
 
 // HasLastSeen returns a boolean if a field has been set.
 func (o *DeviceInfoBasic) HasLastSeen() bool {
-	if o != nil && !IsNil(o.LastSeen) {
+	if o != nil && o.LastSeen.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetLastSeen gets a reference to the given time.Time and assigns it to the LastSeen field.
+// SetLastSeen gets a reference to the given NullableTime and assigns it to the LastSeen field.
 func (o *DeviceInfoBasic) SetLastSeen(v time.Time) {
-	o.LastSeen = &v
+	o.LastSeen.Set(&v)
+}
+// SetLastSeenNil sets the value for LastSeen to be an explicit nil
+func (o *DeviceInfoBasic) SetLastSeenNil() {
+	o.LastSeen.Set(nil)
+}
+
+// UnsetLastSeen ensures that no value is present for LastSeen, not even an explicit nil
+func (o *DeviceInfoBasic) UnsetLastSeen() {
+	o.LastSeen.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -186,36 +196,46 @@ func (o *DeviceInfoBasic) SetCreatedAt(v time.Time) {
 	o.CreatedAt = v
 }
 
-// GetActivatedAt returns the ActivatedAt field value if set, zero value otherwise.
+// GetActivatedAt returns the ActivatedAt field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DeviceInfoBasic) GetActivatedAt() time.Time {
-	if o == nil || IsNil(o.ActivatedAt) {
+	if o == nil || IsNil(o.ActivatedAt.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.ActivatedAt
+	return *o.ActivatedAt.Get()
 }
 
 // GetActivatedAtOk returns a tuple with the ActivatedAt field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DeviceInfoBasic) GetActivatedAtOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.ActivatedAt) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ActivatedAt, true
+	return o.ActivatedAt.Get(), o.ActivatedAt.IsSet()
 }
 
 // HasActivatedAt returns a boolean if a field has been set.
 func (o *DeviceInfoBasic) HasActivatedAt() bool {
-	if o != nil && !IsNil(o.ActivatedAt) {
+	if o != nil && o.ActivatedAt.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetActivatedAt gets a reference to the given time.Time and assigns it to the ActivatedAt field.
+// SetActivatedAt gets a reference to the given NullableTime and assigns it to the ActivatedAt field.
 func (o *DeviceInfoBasic) SetActivatedAt(v time.Time) {
-	o.ActivatedAt = &v
+	o.ActivatedAt.Set(&v)
+}
+// SetActivatedAtNil sets the value for ActivatedAt to be an explicit nil
+func (o *DeviceInfoBasic) SetActivatedAtNil() {
+	o.ActivatedAt.Set(nil)
+}
+
+// UnsetActivatedAt ensures that no value is present for ActivatedAt, not even an explicit nil
+func (o *DeviceInfoBasic) UnsetActivatedAt() {
+	o.ActivatedAt.Unset()
 }
 
 // GetDeviceStatus returns the DeviceStatus field value
@@ -242,36 +262,46 @@ func (o *DeviceInfoBasic) SetDeviceStatus(v DeviceStatus) {
 	o.DeviceStatus = v
 }
 
-// GetNotes returns the Notes field value if set, zero value otherwise.
+// GetNotes returns the Notes field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DeviceInfoBasic) GetNotes() string {
-	if o == nil || IsNil(o.Notes) {
+	if o == nil || IsNil(o.Notes.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Notes
+	return *o.Notes.Get()
 }
 
 // GetNotesOk returns a tuple with the Notes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DeviceInfoBasic) GetNotesOk() (*string, bool) {
-	if o == nil || IsNil(o.Notes) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Notes, true
+	return o.Notes.Get(), o.Notes.IsSet()
 }
 
 // HasNotes returns a boolean if a field has been set.
 func (o *DeviceInfoBasic) HasNotes() bool {
-	if o != nil && !IsNil(o.Notes) {
+	if o != nil && o.Notes.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetNotes gets a reference to the given string and assigns it to the Notes field.
+// SetNotes gets a reference to the given NullableString and assigns it to the Notes field.
 func (o *DeviceInfoBasic) SetNotes(v string) {
-	o.Notes = &v
+	o.Notes.Set(&v)
+}
+// SetNotesNil sets the value for Notes to be an explicit nil
+func (o *DeviceInfoBasic) SetNotesNil() {
+	o.Notes.Set(nil)
+}
+
+// UnsetNotes ensures that no value is present for Notes, not even an explicit nil
+func (o *DeviceInfoBasic) UnsetNotes() {
+	o.Notes.Unset()
 }
 
 // GetHibernated returns the Hibernated field value
@@ -311,16 +341,16 @@ func (o DeviceInfoBasic) ToMap() (map[string]interface{}, error) {
 	toSerialize["deviceUuid"] = o.DeviceUuid
 	toSerialize["deviceName"] = o.DeviceName
 	toSerialize["deviceId"] = o.DeviceId
-	if !IsNil(o.LastSeen) {
-		toSerialize["lastSeen"] = o.LastSeen
+	if o.LastSeen.IsSet() {
+		toSerialize["lastSeen"] = o.LastSeen.Get()
 	}
 	toSerialize["createdAt"] = o.CreatedAt
-	if !IsNil(o.ActivatedAt) {
-		toSerialize["activatedAt"] = o.ActivatedAt
+	if o.ActivatedAt.IsSet() {
+		toSerialize["activatedAt"] = o.ActivatedAt.Get()
 	}
 	toSerialize["deviceStatus"] = o.DeviceStatus
-	if !IsNil(o.Notes) {
-		toSerialize["notes"] = o.Notes
+	if o.Notes.IsSet() {
+		toSerialize["notes"] = o.Notes.Get()
 	}
 	toSerialize["hibernated"] = o.Hibernated
 	return toSerialize, nil

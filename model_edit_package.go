@@ -20,9 +20,9 @@ var _ MappedNullable = &EditPackage{}
 // EditPackage struct for EditPackage
 type EditPackage struct {
 	HardwareIds []string `json:"hardwareIds,omitempty"`
-	Uri *string `json:"uri,omitempty"`
-	ProprietaryMeta *string `json:"proprietaryMeta,omitempty"`
-	Comment *string `json:"comment,omitempty"`
+	Uri NullableString `json:"uri,omitempty"`
+	ProprietaryMeta NullableString `json:"proprietaryMeta,omitempty"`
+	Comment NullableString `json:"comment,omitempty"`
 }
 
 // NewEditPackage instantiates a new EditPackage object
@@ -42,9 +42,9 @@ func NewEditPackageWithDefaults() *EditPackage {
 	return &this
 }
 
-// GetHardwareIds returns the HardwareIds field value if set, zero value otherwise.
+// GetHardwareIds returns the HardwareIds field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EditPackage) GetHardwareIds() []string {
-	if o == nil || IsNil(o.HardwareIds) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -53,6 +53,7 @@ func (o *EditPackage) GetHardwareIds() []string {
 
 // GetHardwareIdsOk returns a tuple with the HardwareIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *EditPackage) GetHardwareIdsOk() ([]string, bool) {
 	if o == nil || IsNil(o.HardwareIds) {
 		return nil, false
@@ -74,100 +75,130 @@ func (o *EditPackage) SetHardwareIds(v []string) {
 	o.HardwareIds = v
 }
 
-// GetUri returns the Uri field value if set, zero value otherwise.
+// GetUri returns the Uri field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EditPackage) GetUri() string {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil || IsNil(o.Uri.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Uri
+	return *o.Uri.Get()
 }
 
 // GetUriOk returns a tuple with the Uri field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *EditPackage) GetUriOk() (*string, bool) {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uri, true
+	return o.Uri.Get(), o.Uri.IsSet()
 }
 
 // HasUri returns a boolean if a field has been set.
 func (o *EditPackage) HasUri() bool {
-	if o != nil && !IsNil(o.Uri) {
+	if o != nil && o.Uri.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUri gets a reference to the given string and assigns it to the Uri field.
+// SetUri gets a reference to the given NullableString and assigns it to the Uri field.
 func (o *EditPackage) SetUri(v string) {
-	o.Uri = &v
+	o.Uri.Set(&v)
+}
+// SetUriNil sets the value for Uri to be an explicit nil
+func (o *EditPackage) SetUriNil() {
+	o.Uri.Set(nil)
 }
 
-// GetProprietaryMeta returns the ProprietaryMeta field value if set, zero value otherwise.
+// UnsetUri ensures that no value is present for Uri, not even an explicit nil
+func (o *EditPackage) UnsetUri() {
+	o.Uri.Unset()
+}
+
+// GetProprietaryMeta returns the ProprietaryMeta field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EditPackage) GetProprietaryMeta() string {
-	if o == nil || IsNil(o.ProprietaryMeta) {
+	if o == nil || IsNil(o.ProprietaryMeta.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.ProprietaryMeta
+	return *o.ProprietaryMeta.Get()
 }
 
 // GetProprietaryMetaOk returns a tuple with the ProprietaryMeta field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *EditPackage) GetProprietaryMetaOk() (*string, bool) {
-	if o == nil || IsNil(o.ProprietaryMeta) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ProprietaryMeta, true
+	return o.ProprietaryMeta.Get(), o.ProprietaryMeta.IsSet()
 }
 
 // HasProprietaryMeta returns a boolean if a field has been set.
 func (o *EditPackage) HasProprietaryMeta() bool {
-	if o != nil && !IsNil(o.ProprietaryMeta) {
+	if o != nil && o.ProprietaryMeta.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetProprietaryMeta gets a reference to the given string and assigns it to the ProprietaryMeta field.
+// SetProprietaryMeta gets a reference to the given NullableString and assigns it to the ProprietaryMeta field.
 func (o *EditPackage) SetProprietaryMeta(v string) {
-	o.ProprietaryMeta = &v
+	o.ProprietaryMeta.Set(&v)
+}
+// SetProprietaryMetaNil sets the value for ProprietaryMeta to be an explicit nil
+func (o *EditPackage) SetProprietaryMetaNil() {
+	o.ProprietaryMeta.Set(nil)
 }
 
-// GetComment returns the Comment field value if set, zero value otherwise.
+// UnsetProprietaryMeta ensures that no value is present for ProprietaryMeta, not even an explicit nil
+func (o *EditPackage) UnsetProprietaryMeta() {
+	o.ProprietaryMeta.Unset()
+}
+
+// GetComment returns the Comment field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *EditPackage) GetComment() string {
-	if o == nil || IsNil(o.Comment) {
+	if o == nil || IsNil(o.Comment.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Comment
+	return *o.Comment.Get()
 }
 
 // GetCommentOk returns a tuple with the Comment field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *EditPackage) GetCommentOk() (*string, bool) {
-	if o == nil || IsNil(o.Comment) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Comment, true
+	return o.Comment.Get(), o.Comment.IsSet()
 }
 
 // HasComment returns a boolean if a field has been set.
 func (o *EditPackage) HasComment() bool {
-	if o != nil && !IsNil(o.Comment) {
+	if o != nil && o.Comment.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetComment gets a reference to the given string and assigns it to the Comment field.
+// SetComment gets a reference to the given NullableString and assigns it to the Comment field.
 func (o *EditPackage) SetComment(v string) {
-	o.Comment = &v
+	o.Comment.Set(&v)
+}
+// SetCommentNil sets the value for Comment to be an explicit nil
+func (o *EditPackage) SetCommentNil() {
+	o.Comment.Set(nil)
+}
+
+// UnsetComment ensures that no value is present for Comment, not even an explicit nil
+func (o *EditPackage) UnsetComment() {
+	o.Comment.Unset()
 }
 
 func (o EditPackage) MarshalJSON() ([]byte, error) {
@@ -180,17 +211,17 @@ func (o EditPackage) MarshalJSON() ([]byte, error) {
 
 func (o EditPackage) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.HardwareIds) {
+	if o.HardwareIds != nil {
 		toSerialize["hardwareIds"] = o.HardwareIds
 	}
-	if !IsNil(o.Uri) {
-		toSerialize["uri"] = o.Uri
+	if o.Uri.IsSet() {
+		toSerialize["uri"] = o.Uri.Get()
 	}
-	if !IsNil(o.ProprietaryMeta) {
-		toSerialize["proprietaryMeta"] = o.ProprietaryMeta
+	if o.ProprietaryMeta.IsSet() {
+		toSerialize["proprietaryMeta"] = o.ProprietaryMeta.Get()
 	}
-	if !IsNil(o.Comment) {
-		toSerialize["comment"] = o.Comment
+	if o.Comment.IsSet() {
+		toSerialize["comment"] = o.Comment.Get()
 	}
 	return toSerialize, nil
 }

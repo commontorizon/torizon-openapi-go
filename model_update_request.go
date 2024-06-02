@@ -106,9 +106,9 @@ func (o *UpdateRequest) SetCustom(v map[string]CustomUpdateData) {
 	o.Custom = &v
 }
 
-// GetDevices returns the Devices field value if set, zero value otherwise.
+// GetDevices returns the Devices field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateRequest) GetDevices() []string {
-	if o == nil || IsNil(o.Devices) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -117,6 +117,7 @@ func (o *UpdateRequest) GetDevices() []string {
 
 // GetDevicesOk returns a tuple with the Devices field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UpdateRequest) GetDevicesOk() ([]string, bool) {
 	if o == nil || IsNil(o.Devices) {
 		return nil, false
@@ -138,9 +139,9 @@ func (o *UpdateRequest) SetDevices(v []string) {
 	o.Devices = v
 }
 
-// GetFleets returns the Fleets field value if set, zero value otherwise.
+// GetFleets returns the Fleets field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *UpdateRequest) GetFleets() []string {
-	if o == nil || IsNil(o.Fleets) {
+	if o == nil {
 		var ret []string
 		return ret
 	}
@@ -149,6 +150,7 @@ func (o *UpdateRequest) GetFleets() []string {
 
 // GetFleetsOk returns a tuple with the Fleets field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *UpdateRequest) GetFleetsOk() ([]string, bool) {
 	if o == nil || IsNil(o.Fleets) {
 		return nil, false
@@ -186,10 +188,10 @@ func (o UpdateRequest) ToMap() (map[string]interface{}, error) {
 	if !IsNil(o.Custom) {
 		toSerialize["custom"] = o.Custom
 	}
-	if !IsNil(o.Devices) {
+	if o.Devices != nil {
 		toSerialize["devices"] = o.Devices
 	}
-	if !IsNil(o.Fleets) {
+	if o.Fleets != nil {
 		toSerialize["fleets"] = o.Fleets
 	}
 	return toSerialize, nil

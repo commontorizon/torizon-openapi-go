@@ -115,6 +115,17 @@ func (a *DevicesAPIService) DeleteDevicesDeviceuuidExecute(r ApiDeleteDevicesDev
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v NotFoundRepr
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -142,6 +153,10 @@ type ApiGetDevicesRequest struct {
 	status *DeviceStatus
 	activatedAfter *time.Time
 	activatedBefore *time.Time
+	lastSeenStart *time.Time
+	lastSeenEnd *time.Time
+	createdAtStart *time.Time
+	createdAtEnd *time.Time
 	sortBy *DeviceSort
 	sortDirection *DeviceSortDirection
 }
@@ -183,6 +198,26 @@ func (r ApiGetDevicesRequest) ActivatedAfter(activatedAfter time.Time) ApiGetDev
 
 func (r ApiGetDevicesRequest) ActivatedBefore(activatedBefore time.Time) ApiGetDevicesRequest {
 	r.activatedBefore = &activatedBefore
+	return r
+}
+
+func (r ApiGetDevicesRequest) LastSeenStart(lastSeenStart time.Time) ApiGetDevicesRequest {
+	r.lastSeenStart = &lastSeenStart
+	return r
+}
+
+func (r ApiGetDevicesRequest) LastSeenEnd(lastSeenEnd time.Time) ApiGetDevicesRequest {
+	r.lastSeenEnd = &lastSeenEnd
+	return r
+}
+
+func (r ApiGetDevicesRequest) CreatedAtStart(createdAtStart time.Time) ApiGetDevicesRequest {
+	r.createdAtStart = &createdAtStart
+	return r
+}
+
+func (r ApiGetDevicesRequest) CreatedAtEnd(createdAtEnd time.Time) ApiGetDevicesRequest {
+	r.createdAtEnd = &createdAtEnd
 	return r
 }
 
@@ -270,6 +305,18 @@ func (a *DevicesAPIService) GetDevicesExecute(r ApiGetDevicesRequest) (*Paginati
 	}
 	if r.activatedBefore != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "activatedBefore", r.activatedBefore, "")
+	}
+	if r.lastSeenStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lastSeenStart", r.lastSeenStart, "")
+	}
+	if r.lastSeenEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "lastSeenEnd", r.lastSeenEnd, "")
+	}
+	if r.createdAtStart != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtStart", r.createdAtStart, "")
+	}
+	if r.createdAtEnd != nil {
+		parameterAddToHeaderOrQuery(localVarQueryParams, "createdAtEnd", r.createdAtEnd, "")
 	}
 	if r.sortBy != nil {
 		parameterAddToHeaderOrQuery(localVarQueryParams, "sortBy", r.sortBy, "")
@@ -436,6 +483,17 @@ func (a *DevicesAPIService) GetDevicesDeviceuuidExecute(r ApiGetDevicesDeviceuui
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v NotFoundRepr
@@ -824,6 +882,17 @@ func (a *DevicesAPIService) GetDevicesNetworkDeviceuuidExecute(r ApiGetDevicesNe
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v NotFoundRepr
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -939,6 +1008,17 @@ func (a *DevicesAPIService) GetDevicesNotesDeviceuuidExecute(r ApiGetDevicesNote
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v NotFoundRepr
@@ -1471,6 +1551,17 @@ func (a *DevicesAPIService) GetDevicesUptaneDeviceuuidAssignmentExecute(r ApiGet
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v NotFoundRepr
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -1600,6 +1691,17 @@ func (a *DevicesAPIService) GetDevicesUptaneDeviceuuidComponentsExecute(r ApiGet
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v BadRequestRepr
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v NotFoundRepr
@@ -1852,7 +1954,7 @@ func (a *DevicesAPIService) PutDevicesHibernationDeviceuuidExecute(r ApiPutDevic
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json"}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -1884,7 +1986,7 @@ func (a *DevicesAPIService) PutDevicesHibernationDeviceuuidExecute(r ApiPutDevic
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v string
+			var v BadRequestRepr
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -2107,7 +2209,7 @@ func (a *DevicesAPIService) PutDevicesNotesDeviceuuidExecute(r ApiPutDevicesNote
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json"}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -2139,7 +2241,7 @@ func (a *DevicesAPIService) PutDevicesNotesDeviceuuidExecute(r ApiPutDevicesNote
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v string
+			var v BadRequestRepr
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

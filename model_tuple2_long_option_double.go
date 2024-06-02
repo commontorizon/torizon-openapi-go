@@ -22,7 +22,7 @@ var _ MappedNullable = &Tuple2LongOptionDouble{}
 // Tuple2LongOptionDouble struct for Tuple2LongOptionDouble
 type Tuple2LongOptionDouble struct {
 	Var1 int64 `json:"_1"`
-	Var2 *float64 `json:"_2,omitempty"`
+	Var2 NullableFloat64 `json:"_2,omitempty"`
 }
 
 type _Tuple2LongOptionDouble Tuple2LongOptionDouble
@@ -69,36 +69,46 @@ func (o *Tuple2LongOptionDouble) SetVar1(v int64) {
 	o.Var1 = v
 }
 
-// GetVar2 returns the Var2 field value if set, zero value otherwise.
+// GetVar2 returns the Var2 field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Tuple2LongOptionDouble) GetVar2() float64 {
-	if o == nil || IsNil(o.Var2) {
+	if o == nil || IsNil(o.Var2.Get()) {
 		var ret float64
 		return ret
 	}
-	return *o.Var2
+	return *o.Var2.Get()
 }
 
 // GetVar2Ok returns a tuple with the Var2 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Tuple2LongOptionDouble) GetVar2Ok() (*float64, bool) {
-	if o == nil || IsNil(o.Var2) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Var2, true
+	return o.Var2.Get(), o.Var2.IsSet()
 }
 
 // HasVar2 returns a boolean if a field has been set.
 func (o *Tuple2LongOptionDouble) HasVar2() bool {
-	if o != nil && !IsNil(o.Var2) {
+	if o != nil && o.Var2.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetVar2 gets a reference to the given float64 and assigns it to the Var2 field.
+// SetVar2 gets a reference to the given NullableFloat64 and assigns it to the Var2 field.
 func (o *Tuple2LongOptionDouble) SetVar2(v float64) {
-	o.Var2 = &v
+	o.Var2.Set(&v)
+}
+// SetVar2Nil sets the value for Var2 to be an explicit nil
+func (o *Tuple2LongOptionDouble) SetVar2Nil() {
+	o.Var2.Set(nil)
+}
+
+// UnsetVar2 ensures that no value is present for Var2, not even an explicit nil
+func (o *Tuple2LongOptionDouble) UnsetVar2() {
+	o.Var2.Unset()
 }
 
 func (o Tuple2LongOptionDouble) MarshalJSON() ([]byte, error) {
@@ -112,8 +122,8 @@ func (o Tuple2LongOptionDouble) MarshalJSON() ([]byte, error) {
 func (o Tuple2LongOptionDouble) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["_1"] = o.Var1
-	if !IsNil(o.Var2) {
-		toSerialize["_2"] = o.Var2
+	if o.Var2.IsSet() {
+		toSerialize["_2"] = o.Var2.Get()
 	}
 	return toSerialize, nil
 }

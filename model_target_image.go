@@ -23,7 +23,7 @@ var _ MappedNullable = &TargetImage{}
 // TargetImage struct for TargetImage
 type TargetImage struct {
 	Image Image `json:"image"`
-	Uri *string `json:"uri,omitempty"`
+	Uri NullableString `json:"uri,omitempty"`
 	CreatedAt time.Time `json:"createdAt"`
 }
 
@@ -72,36 +72,46 @@ func (o *TargetImage) SetImage(v Image) {
 	o.Image = v
 }
 
-// GetUri returns the Uri field value if set, zero value otherwise.
+// GetUri returns the Uri field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *TargetImage) GetUri() string {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil || IsNil(o.Uri.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Uri
+	return *o.Uri.Get()
 }
 
 // GetUriOk returns a tuple with the Uri field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TargetImage) GetUriOk() (*string, bool) {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uri, true
+	return o.Uri.Get(), o.Uri.IsSet()
 }
 
 // HasUri returns a boolean if a field has been set.
 func (o *TargetImage) HasUri() bool {
-	if o != nil && !IsNil(o.Uri) {
+	if o != nil && o.Uri.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUri gets a reference to the given string and assigns it to the Uri field.
+// SetUri gets a reference to the given NullableString and assigns it to the Uri field.
 func (o *TargetImage) SetUri(v string) {
-	o.Uri = &v
+	o.Uri.Set(&v)
+}
+// SetUriNil sets the value for Uri to be an explicit nil
+func (o *TargetImage) SetUriNil() {
+	o.Uri.Set(nil)
+}
+
+// UnsetUri ensures that no value is present for Uri, not even an explicit nil
+func (o *TargetImage) UnsetUri() {
+	o.Uri.Unset()
 }
 
 // GetCreatedAt returns the CreatedAt field value
@@ -139,8 +149,8 @@ func (o TargetImage) MarshalJSON() ([]byte, error) {
 func (o TargetImage) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["image"] = o.Image
-	if !IsNil(o.Uri) {
-		toSerialize["uri"] = o.Uri
+	if o.Uri.IsSet() {
+		toSerialize["uri"] = o.Uri.Get()
 	}
 	toSerialize["createdAt"] = o.CreatedAt
 	return toSerialize, nil

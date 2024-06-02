@@ -20,9 +20,9 @@ var _ MappedNullable = &DelegationInfo{}
 
 // DelegationInfo struct for DelegationInfo
 type DelegationInfo struct {
-	LastFetched *time.Time `json:"lastFetched,omitempty"`
-	RemoteUri *string `json:"remoteUri,omitempty"`
-	FriendlyName *string `json:"friendlyName,omitempty"`
+	LastFetched NullableTime `json:"lastFetched,omitempty"`
+	RemoteUri NullableString `json:"remoteUri,omitempty"`
+	FriendlyName NullableString `json:"friendlyName,omitempty"`
 }
 
 // NewDelegationInfo instantiates a new DelegationInfo object
@@ -42,100 +42,130 @@ func NewDelegationInfoWithDefaults() *DelegationInfo {
 	return &this
 }
 
-// GetLastFetched returns the LastFetched field value if set, zero value otherwise.
+// GetLastFetched returns the LastFetched field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DelegationInfo) GetLastFetched() time.Time {
-	if o == nil || IsNil(o.LastFetched) {
+	if o == nil || IsNil(o.LastFetched.Get()) {
 		var ret time.Time
 		return ret
 	}
-	return *o.LastFetched
+	return *o.LastFetched.Get()
 }
 
 // GetLastFetchedOk returns a tuple with the LastFetched field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DelegationInfo) GetLastFetchedOk() (*time.Time, bool) {
-	if o == nil || IsNil(o.LastFetched) {
+	if o == nil {
 		return nil, false
 	}
-	return o.LastFetched, true
+	return o.LastFetched.Get(), o.LastFetched.IsSet()
 }
 
 // HasLastFetched returns a boolean if a field has been set.
 func (o *DelegationInfo) HasLastFetched() bool {
-	if o != nil && !IsNil(o.LastFetched) {
+	if o != nil && o.LastFetched.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetLastFetched gets a reference to the given time.Time and assigns it to the LastFetched field.
+// SetLastFetched gets a reference to the given NullableTime and assigns it to the LastFetched field.
 func (o *DelegationInfo) SetLastFetched(v time.Time) {
-	o.LastFetched = &v
+	o.LastFetched.Set(&v)
+}
+// SetLastFetchedNil sets the value for LastFetched to be an explicit nil
+func (o *DelegationInfo) SetLastFetchedNil() {
+	o.LastFetched.Set(nil)
 }
 
-// GetRemoteUri returns the RemoteUri field value if set, zero value otherwise.
+// UnsetLastFetched ensures that no value is present for LastFetched, not even an explicit nil
+func (o *DelegationInfo) UnsetLastFetched() {
+	o.LastFetched.Unset()
+}
+
+// GetRemoteUri returns the RemoteUri field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DelegationInfo) GetRemoteUri() string {
-	if o == nil || IsNil(o.RemoteUri) {
+	if o == nil || IsNil(o.RemoteUri.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.RemoteUri
+	return *o.RemoteUri.Get()
 }
 
 // GetRemoteUriOk returns a tuple with the RemoteUri field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DelegationInfo) GetRemoteUriOk() (*string, bool) {
-	if o == nil || IsNil(o.RemoteUri) {
+	if o == nil {
 		return nil, false
 	}
-	return o.RemoteUri, true
+	return o.RemoteUri.Get(), o.RemoteUri.IsSet()
 }
 
 // HasRemoteUri returns a boolean if a field has been set.
 func (o *DelegationInfo) HasRemoteUri() bool {
-	if o != nil && !IsNil(o.RemoteUri) {
+	if o != nil && o.RemoteUri.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetRemoteUri gets a reference to the given string and assigns it to the RemoteUri field.
+// SetRemoteUri gets a reference to the given NullableString and assigns it to the RemoteUri field.
 func (o *DelegationInfo) SetRemoteUri(v string) {
-	o.RemoteUri = &v
+	o.RemoteUri.Set(&v)
+}
+// SetRemoteUriNil sets the value for RemoteUri to be an explicit nil
+func (o *DelegationInfo) SetRemoteUriNil() {
+	o.RemoteUri.Set(nil)
 }
 
-// GetFriendlyName returns the FriendlyName field value if set, zero value otherwise.
+// UnsetRemoteUri ensures that no value is present for RemoteUri, not even an explicit nil
+func (o *DelegationInfo) UnsetRemoteUri() {
+	o.RemoteUri.Unset()
+}
+
+// GetFriendlyName returns the FriendlyName field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *DelegationInfo) GetFriendlyName() string {
-	if o == nil || IsNil(o.FriendlyName) {
+	if o == nil || IsNil(o.FriendlyName.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.FriendlyName
+	return *o.FriendlyName.Get()
 }
 
 // GetFriendlyNameOk returns a tuple with the FriendlyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *DelegationInfo) GetFriendlyNameOk() (*string, bool) {
-	if o == nil || IsNil(o.FriendlyName) {
+	if o == nil {
 		return nil, false
 	}
-	return o.FriendlyName, true
+	return o.FriendlyName.Get(), o.FriendlyName.IsSet()
 }
 
 // HasFriendlyName returns a boolean if a field has been set.
 func (o *DelegationInfo) HasFriendlyName() bool {
-	if o != nil && !IsNil(o.FriendlyName) {
+	if o != nil && o.FriendlyName.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetFriendlyName gets a reference to the given string and assigns it to the FriendlyName field.
+// SetFriendlyName gets a reference to the given NullableString and assigns it to the FriendlyName field.
 func (o *DelegationInfo) SetFriendlyName(v string) {
-	o.FriendlyName = &v
+	o.FriendlyName.Set(&v)
+}
+// SetFriendlyNameNil sets the value for FriendlyName to be an explicit nil
+func (o *DelegationInfo) SetFriendlyNameNil() {
+	o.FriendlyName.Set(nil)
+}
+
+// UnsetFriendlyName ensures that no value is present for FriendlyName, not even an explicit nil
+func (o *DelegationInfo) UnsetFriendlyName() {
+	o.FriendlyName.Unset()
 }
 
 func (o DelegationInfo) MarshalJSON() ([]byte, error) {
@@ -148,14 +178,14 @@ func (o DelegationInfo) MarshalJSON() ([]byte, error) {
 
 func (o DelegationInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.LastFetched) {
-		toSerialize["lastFetched"] = o.LastFetched
+	if o.LastFetched.IsSet() {
+		toSerialize["lastFetched"] = o.LastFetched.Get()
 	}
-	if !IsNil(o.RemoteUri) {
-		toSerialize["remoteUri"] = o.RemoteUri
+	if o.RemoteUri.IsSet() {
+		toSerialize["remoteUri"] = o.RemoteUri.Get()
 	}
-	if !IsNil(o.FriendlyName) {
-		toSerialize["friendlyName"] = o.FriendlyName
+	if o.FriendlyName.IsSet() {
+		toSerialize["friendlyName"] = o.FriendlyName.Get()
 	}
 	return toSerialize, nil
 }

@@ -26,7 +26,7 @@ type Fleet struct {
 	Name string `json:"name"`
 	CreatedAt time.Time `json:"createdAt"`
 	FleetType FleetType `json:"fleetType"`
-	Expression *string `json:"expression,omitempty"`
+	Expression NullableString `json:"expression,omitempty"`
 }
 
 type _Fleet Fleet
@@ -148,36 +148,46 @@ func (o *Fleet) SetFleetType(v FleetType) {
 	o.FleetType = v
 }
 
-// GetExpression returns the Expression field value if set, zero value otherwise.
+// GetExpression returns the Expression field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *Fleet) GetExpression() string {
-	if o == nil || IsNil(o.Expression) {
+	if o == nil || IsNil(o.Expression.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Expression
+	return *o.Expression.Get()
 }
 
 // GetExpressionOk returns a tuple with the Expression field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *Fleet) GetExpressionOk() (*string, bool) {
-	if o == nil || IsNil(o.Expression) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Expression, true
+	return o.Expression.Get(), o.Expression.IsSet()
 }
 
 // HasExpression returns a boolean if a field has been set.
 func (o *Fleet) HasExpression() bool {
-	if o != nil && !IsNil(o.Expression) {
+	if o != nil && o.Expression.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetExpression gets a reference to the given string and assigns it to the Expression field.
+// SetExpression gets a reference to the given NullableString and assigns it to the Expression field.
 func (o *Fleet) SetExpression(v string) {
-	o.Expression = &v
+	o.Expression.Set(&v)
+}
+// SetExpressionNil sets the value for Expression to be an explicit nil
+func (o *Fleet) SetExpressionNil() {
+	o.Expression.Set(nil)
+}
+
+// UnsetExpression ensures that no value is present for Expression, not even an explicit nil
+func (o *Fleet) UnsetExpression() {
+	o.Expression.Unset()
 }
 
 func (o Fleet) MarshalJSON() ([]byte, error) {
@@ -194,8 +204,8 @@ func (o Fleet) ToMap() (map[string]interface{}, error) {
 	toSerialize["name"] = o.Name
 	toSerialize["createdAt"] = o.CreatedAt
 	toSerialize["fleetType"] = o.FleetType
-	if !IsNil(o.Expression) {
-		toSerialize["expression"] = o.Expression
+	if o.Expression.IsSet() {
+		toSerialize["expression"] = o.Expression.Get()
 	}
 	return toSerialize, nil
 }

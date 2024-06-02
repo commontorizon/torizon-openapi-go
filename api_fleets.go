@@ -82,7 +82,7 @@ func (a *FleetsAPIService) DeleteFleetsFleetidExecute(r ApiDeleteFleetsFleetidRe
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json"}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -112,7 +112,7 @@ func (a *FleetsAPIService) DeleteFleetsFleetidExecute(r ApiDeleteFleetsFleetidRe
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v string
+			var v BadRequestRepr
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

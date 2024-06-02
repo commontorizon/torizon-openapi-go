@@ -58,6 +58,8 @@ type APIClient struct {
 
 	PackagesAPI *PackagesAPIService
 
+	RemoteAccessAPI *RemoteAccessAPIService
+
 	UpdatesAPI *UpdatesAPIService
 }
 
@@ -81,6 +83,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.DevicesAPI = (*DevicesAPIService)(&c.common)
 	c.FleetsAPI = (*FleetsAPIService)(&c.common)
 	c.PackagesAPI = (*PackagesAPIService)(&c.common)
+	c.RemoteAccessAPI = (*RemoteAccessAPIService)(&c.common)
 	c.UpdatesAPI = (*UpdatesAPIService)(&c.common)
 
 	return c
@@ -175,7 +178,7 @@ func parameterAddToHeaderOrQuery(headerOrQueryParams interface{}, keyPrefix stri
 					return
 				}
 				if t, ok := obj.(time.Time); ok {
-					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339), collectionType)
+					parameterAddToHeaderOrQuery(headerOrQueryParams, keyPrefix, t.Format(time.RFC3339Nano), collectionType)
 					return
 				}
 				value = v.Type().String() + " value"

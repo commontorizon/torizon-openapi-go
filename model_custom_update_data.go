@@ -19,8 +19,8 @@ var _ MappedNullable = &CustomUpdateData{}
 
 // CustomUpdateData struct for CustomUpdateData
 type CustomUpdateData struct {
-	Uri *string `json:"uri,omitempty"`
-	Metadata *string `json:"metadata,omitempty"`
+	Uri NullableString `json:"uri,omitempty"`
+	Metadata NullableString `json:"metadata,omitempty"`
 }
 
 // NewCustomUpdateData instantiates a new CustomUpdateData object
@@ -40,68 +40,88 @@ func NewCustomUpdateDataWithDefaults() *CustomUpdateData {
 	return &this
 }
 
-// GetUri returns the Uri field value if set, zero value otherwise.
+// GetUri returns the Uri field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CustomUpdateData) GetUri() string {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil || IsNil(o.Uri.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Uri
+	return *o.Uri.Get()
 }
 
 // GetUriOk returns a tuple with the Uri field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CustomUpdateData) GetUriOk() (*string, bool) {
-	if o == nil || IsNil(o.Uri) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Uri, true
+	return o.Uri.Get(), o.Uri.IsSet()
 }
 
 // HasUri returns a boolean if a field has been set.
 func (o *CustomUpdateData) HasUri() bool {
-	if o != nil && !IsNil(o.Uri) {
+	if o != nil && o.Uri.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetUri gets a reference to the given string and assigns it to the Uri field.
+// SetUri gets a reference to the given NullableString and assigns it to the Uri field.
 func (o *CustomUpdateData) SetUri(v string) {
-	o.Uri = &v
+	o.Uri.Set(&v)
+}
+// SetUriNil sets the value for Uri to be an explicit nil
+func (o *CustomUpdateData) SetUriNil() {
+	o.Uri.Set(nil)
 }
 
-// GetMetadata returns the Metadata field value if set, zero value otherwise.
+// UnsetUri ensures that no value is present for Uri, not even an explicit nil
+func (o *CustomUpdateData) UnsetUri() {
+	o.Uri.Unset()
+}
+
+// GetMetadata returns the Metadata field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *CustomUpdateData) GetMetadata() string {
-	if o == nil || IsNil(o.Metadata) {
+	if o == nil || IsNil(o.Metadata.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Metadata
+	return *o.Metadata.Get()
 }
 
 // GetMetadataOk returns a tuple with the Metadata field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *CustomUpdateData) GetMetadataOk() (*string, bool) {
-	if o == nil || IsNil(o.Metadata) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Metadata, true
+	return o.Metadata.Get(), o.Metadata.IsSet()
 }
 
 // HasMetadata returns a boolean if a field has been set.
 func (o *CustomUpdateData) HasMetadata() bool {
-	if o != nil && !IsNil(o.Metadata) {
+	if o != nil && o.Metadata.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetMetadata gets a reference to the given string and assigns it to the Metadata field.
+// SetMetadata gets a reference to the given NullableString and assigns it to the Metadata field.
 func (o *CustomUpdateData) SetMetadata(v string) {
-	o.Metadata = &v
+	o.Metadata.Set(&v)
+}
+// SetMetadataNil sets the value for Metadata to be an explicit nil
+func (o *CustomUpdateData) SetMetadataNil() {
+	o.Metadata.Set(nil)
+}
+
+// UnsetMetadata ensures that no value is present for Metadata, not even an explicit nil
+func (o *CustomUpdateData) UnsetMetadata() {
+	o.Metadata.Unset()
 }
 
 func (o CustomUpdateData) MarshalJSON() ([]byte, error) {
@@ -114,11 +134,11 @@ func (o CustomUpdateData) MarshalJSON() ([]byte, error) {
 
 func (o CustomUpdateData) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if !IsNil(o.Uri) {
-		toSerialize["uri"] = o.Uri
+	if o.Uri.IsSet() {
+		toSerialize["uri"] = o.Uri.Get()
 	}
-	if !IsNil(o.Metadata) {
-		toSerialize["metadata"] = o.Metadata
+	if o.Metadata.IsSet() {
+		toSerialize["metadata"] = o.Metadata.Get()
 	}
 	return toSerialize, nil
 }

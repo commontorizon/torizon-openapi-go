@@ -22,9 +22,9 @@ var _ MappedNullable = &NetworkInfo{}
 // NetworkInfo struct for NetworkInfo
 type NetworkInfo struct {
 	DeviceUuid string `json:"deviceUuid"`
-	LocalIpV4 *string `json:"localIpV4,omitempty"`
-	Hostname *string `json:"hostname,omitempty"`
-	MacAddress *string `json:"macAddress,omitempty"`
+	LocalIpV4 NullableString `json:"localIpV4,omitempty"`
+	Hostname NullableString `json:"hostname,omitempty"`
+	MacAddress NullableString `json:"macAddress,omitempty"`
 }
 
 type _NetworkInfo NetworkInfo
@@ -71,100 +71,130 @@ func (o *NetworkInfo) SetDeviceUuid(v string) {
 	o.DeviceUuid = v
 }
 
-// GetLocalIpV4 returns the LocalIpV4 field value if set, zero value otherwise.
+// GetLocalIpV4 returns the LocalIpV4 field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NetworkInfo) GetLocalIpV4() string {
-	if o == nil || IsNil(o.LocalIpV4) {
+	if o == nil || IsNil(o.LocalIpV4.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.LocalIpV4
+	return *o.LocalIpV4.Get()
 }
 
 // GetLocalIpV4Ok returns a tuple with the LocalIpV4 field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NetworkInfo) GetLocalIpV4Ok() (*string, bool) {
-	if o == nil || IsNil(o.LocalIpV4) {
+	if o == nil {
 		return nil, false
 	}
-	return o.LocalIpV4, true
+	return o.LocalIpV4.Get(), o.LocalIpV4.IsSet()
 }
 
 // HasLocalIpV4 returns a boolean if a field has been set.
 func (o *NetworkInfo) HasLocalIpV4() bool {
-	if o != nil && !IsNil(o.LocalIpV4) {
+	if o != nil && o.LocalIpV4.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetLocalIpV4 gets a reference to the given string and assigns it to the LocalIpV4 field.
+// SetLocalIpV4 gets a reference to the given NullableString and assigns it to the LocalIpV4 field.
 func (o *NetworkInfo) SetLocalIpV4(v string) {
-	o.LocalIpV4 = &v
+	o.LocalIpV4.Set(&v)
+}
+// SetLocalIpV4Nil sets the value for LocalIpV4 to be an explicit nil
+func (o *NetworkInfo) SetLocalIpV4Nil() {
+	o.LocalIpV4.Set(nil)
 }
 
-// GetHostname returns the Hostname field value if set, zero value otherwise.
+// UnsetLocalIpV4 ensures that no value is present for LocalIpV4, not even an explicit nil
+func (o *NetworkInfo) UnsetLocalIpV4() {
+	o.LocalIpV4.Unset()
+}
+
+// GetHostname returns the Hostname field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NetworkInfo) GetHostname() string {
-	if o == nil || IsNil(o.Hostname) {
+	if o == nil || IsNil(o.Hostname.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.Hostname
+	return *o.Hostname.Get()
 }
 
 // GetHostnameOk returns a tuple with the Hostname field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NetworkInfo) GetHostnameOk() (*string, bool) {
-	if o == nil || IsNil(o.Hostname) {
+	if o == nil {
 		return nil, false
 	}
-	return o.Hostname, true
+	return o.Hostname.Get(), o.Hostname.IsSet()
 }
 
 // HasHostname returns a boolean if a field has been set.
 func (o *NetworkInfo) HasHostname() bool {
-	if o != nil && !IsNil(o.Hostname) {
+	if o != nil && o.Hostname.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetHostname gets a reference to the given string and assigns it to the Hostname field.
+// SetHostname gets a reference to the given NullableString and assigns it to the Hostname field.
 func (o *NetworkInfo) SetHostname(v string) {
-	o.Hostname = &v
+	o.Hostname.Set(&v)
+}
+// SetHostnameNil sets the value for Hostname to be an explicit nil
+func (o *NetworkInfo) SetHostnameNil() {
+	o.Hostname.Set(nil)
 }
 
-// GetMacAddress returns the MacAddress field value if set, zero value otherwise.
+// UnsetHostname ensures that no value is present for Hostname, not even an explicit nil
+func (o *NetworkInfo) UnsetHostname() {
+	o.Hostname.Unset()
+}
+
+// GetMacAddress returns the MacAddress field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *NetworkInfo) GetMacAddress() string {
-	if o == nil || IsNil(o.MacAddress) {
+	if o == nil || IsNil(o.MacAddress.Get()) {
 		var ret string
 		return ret
 	}
-	return *o.MacAddress
+	return *o.MacAddress.Get()
 }
 
 // GetMacAddressOk returns a tuple with the MacAddress field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *NetworkInfo) GetMacAddressOk() (*string, bool) {
-	if o == nil || IsNil(o.MacAddress) {
+	if o == nil {
 		return nil, false
 	}
-	return o.MacAddress, true
+	return o.MacAddress.Get(), o.MacAddress.IsSet()
 }
 
 // HasMacAddress returns a boolean if a field has been set.
 func (o *NetworkInfo) HasMacAddress() bool {
-	if o != nil && !IsNil(o.MacAddress) {
+	if o != nil && o.MacAddress.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetMacAddress gets a reference to the given string and assigns it to the MacAddress field.
+// SetMacAddress gets a reference to the given NullableString and assigns it to the MacAddress field.
 func (o *NetworkInfo) SetMacAddress(v string) {
-	o.MacAddress = &v
+	o.MacAddress.Set(&v)
+}
+// SetMacAddressNil sets the value for MacAddress to be an explicit nil
+func (o *NetworkInfo) SetMacAddressNil() {
+	o.MacAddress.Set(nil)
+}
+
+// UnsetMacAddress ensures that no value is present for MacAddress, not even an explicit nil
+func (o *NetworkInfo) UnsetMacAddress() {
+	o.MacAddress.Unset()
 }
 
 func (o NetworkInfo) MarshalJSON() ([]byte, error) {
@@ -178,14 +208,14 @@ func (o NetworkInfo) MarshalJSON() ([]byte, error) {
 func (o NetworkInfo) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["deviceUuid"] = o.DeviceUuid
-	if !IsNil(o.LocalIpV4) {
-		toSerialize["localIpV4"] = o.LocalIpV4
+	if o.LocalIpV4.IsSet() {
+		toSerialize["localIpV4"] = o.LocalIpV4.Get()
 	}
-	if !IsNil(o.Hostname) {
-		toSerialize["hostname"] = o.Hostname
+	if o.Hostname.IsSet() {
+		toSerialize["hostname"] = o.Hostname.Get()
 	}
-	if !IsNil(o.MacAddress) {
-		toSerialize["macAddress"] = o.MacAddress
+	if o.MacAddress.IsSet() {
+		toSerialize["macAddress"] = o.MacAddress.Get()
 	}
 	return toSerialize, nil
 }
