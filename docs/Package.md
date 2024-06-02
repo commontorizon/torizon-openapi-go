@@ -9,12 +9,12 @@ Name | Type | Description | Notes
 **PackageId** | **string** |  | 
 **Size** | **int64** |  | 
 **Hashes** | **map[string]string** |  | 
-**PkgType** | Pointer to **string** |  | [optional] 
+**PkgType** | Pointer to **NullableString** |  | [optional] 
 **HardwareIds** | Pointer to **[]string** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**Uri** | Pointer to **string** |  | [optional] 
-**ProprietaryMeta** | Pointer to **string** |  | [optional] 
-**Comment** | Pointer to **string** |  | [optional] 
+**CreatedAt** | Pointer to **NullableTime** |  | [optional] 
+**Uri** | Pointer to **NullableString** |  | [optional] 
+**ProprietaryMeta** | Pointer to **NullableString** |  | [optional] 
+**Comment** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -160,6 +160,16 @@ SetPkgType sets PkgType field to given value.
 
 HasPkgType returns a boolean if a field has been set.
 
+### SetPkgTypeNil
+
+`func (o *Package) SetPkgTypeNil(b bool)`
+
+ SetPkgTypeNil sets the value for PkgType to be an explicit nil
+
+### UnsetPkgType
+`func (o *Package) UnsetPkgType()`
+
+UnsetPkgType ensures that no value is present for PkgType, not even an explicit nil
 ### GetHardwareIds
 
 `func (o *Package) GetHardwareIds() []string`
@@ -210,6 +220,16 @@ SetCreatedAt sets CreatedAt field to given value.
 
 HasCreatedAt returns a boolean if a field has been set.
 
+### SetCreatedAtNil
+
+`func (o *Package) SetCreatedAtNil(b bool)`
+
+ SetCreatedAtNil sets the value for CreatedAt to be an explicit nil
+
+### UnsetCreatedAt
+`func (o *Package) UnsetCreatedAt()`
+
+UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
 ### GetUri
 
 `func (o *Package) GetUri() string`
@@ -235,6 +255,16 @@ SetUri sets Uri field to given value.
 
 HasUri returns a boolean if a field has been set.
 
+### SetUriNil
+
+`func (o *Package) SetUriNil(b bool)`
+
+ SetUriNil sets the value for Uri to be an explicit nil
+
+### UnsetUri
+`func (o *Package) UnsetUri()`
+
+UnsetUri ensures that no value is present for Uri, not even an explicit nil
 ### GetProprietaryMeta
 
 `func (o *Package) GetProprietaryMeta() string`
@@ -260,6 +290,16 @@ SetProprietaryMeta sets ProprietaryMeta field to given value.
 
 HasProprietaryMeta returns a boolean if a field has been set.
 
+### SetProprietaryMetaNil
+
+`func (o *Package) SetProprietaryMetaNil(b bool)`
+
+ SetProprietaryMetaNil sets the value for ProprietaryMeta to be an explicit nil
+
+### UnsetProprietaryMeta
+`func (o *Package) UnsetProprietaryMeta()`
+
+UnsetProprietaryMeta ensures that no value is present for ProprietaryMeta, not even an explicit nil
 ### GetComment
 
 `func (o *Package) GetComment() string`
@@ -285,6 +325,16 @@ SetComment sets Comment field to given value.
 
 HasComment returns a boolean if a field has been set.
 
+### SetCommentNil
+
+`func (o *Package) SetCommentNil(b bool)`
+
+ SetCommentNil sets the value for Comment to be an explicit nil
+
+### UnsetComment
+`func (o *Package) UnsetComment()`
+
+UnsetComment ensures that no value is present for Comment, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

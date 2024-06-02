@@ -5,9 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HardwareIds** | Pointer to **[]string** |  | [optional] 
-**Uri** | Pointer to **string** |  | [optional] 
-**ProprietaryMeta** | Pointer to **string** |  | [optional] 
-**Comment** | Pointer to **string** |  | [optional] 
+**Uri** | Pointer to **NullableString** |  | [optional] 
+**ProprietaryMeta** | Pointer to **NullableString** |  | [optional] 
+**Comment** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -53,6 +53,16 @@ SetHardwareIds sets HardwareIds field to given value.
 
 HasHardwareIds returns a boolean if a field has been set.
 
+### SetHardwareIdsNil
+
+`func (o *EditPackage) SetHardwareIdsNil(b bool)`
+
+ SetHardwareIdsNil sets the value for HardwareIds to be an explicit nil
+
+### UnsetHardwareIds
+`func (o *EditPackage) UnsetHardwareIds()`
+
+UnsetHardwareIds ensures that no value is present for HardwareIds, not even an explicit nil
 ### GetUri
 
 `func (o *EditPackage) GetUri() string`
@@ -78,6 +88,16 @@ SetUri sets Uri field to given value.
 
 HasUri returns a boolean if a field has been set.
 
+### SetUriNil
+
+`func (o *EditPackage) SetUriNil(b bool)`
+
+ SetUriNil sets the value for Uri to be an explicit nil
+
+### UnsetUri
+`func (o *EditPackage) UnsetUri()`
+
+UnsetUri ensures that no value is present for Uri, not even an explicit nil
 ### GetProprietaryMeta
 
 `func (o *EditPackage) GetProprietaryMeta() string`
@@ -103,6 +123,16 @@ SetProprietaryMeta sets ProprietaryMeta field to given value.
 
 HasProprietaryMeta returns a boolean if a field has been set.
 
+### SetProprietaryMetaNil
+
+`func (o *EditPackage) SetProprietaryMetaNil(b bool)`
+
+ SetProprietaryMetaNil sets the value for ProprietaryMeta to be an explicit nil
+
+### UnsetProprietaryMeta
+`func (o *EditPackage) UnsetProprietaryMeta()`
+
+UnsetProprietaryMeta ensures that no value is present for ProprietaryMeta, not even an explicit nil
 ### GetComment
 
 `func (o *EditPackage) GetComment() string`
@@ -128,6 +158,16 @@ SetComment sets Comment field to given value.
 
 HasComment returns a boolean if a field has been set.
 
+### SetCommentNil
+
+`func (o *EditPackage) SetCommentNil(b bool)`
+
+ SetCommentNil sets the value for Comment to be an explicit nil
+
+### UnsetComment
+`func (o *EditPackage) UnsetComment()`
+
+UnsetComment ensures that no value is present for Comment, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

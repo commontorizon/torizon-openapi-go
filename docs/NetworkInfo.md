@@ -5,9 +5,9 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **DeviceUuid** | **string** |  | 
-**LocalIpV4** | Pointer to **string** |  | [optional] 
-**Hostname** | Pointer to **string** |  | [optional] 
-**MacAddress** | Pointer to **string** |  | [optional] 
+**LocalIpV4** | Pointer to **NullableString** |  | [optional] 
+**Hostname** | Pointer to **NullableString** |  | [optional] 
+**MacAddress** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -73,6 +73,16 @@ SetLocalIpV4 sets LocalIpV4 field to given value.
 
 HasLocalIpV4 returns a boolean if a field has been set.
 
+### SetLocalIpV4Nil
+
+`func (o *NetworkInfo) SetLocalIpV4Nil(b bool)`
+
+ SetLocalIpV4Nil sets the value for LocalIpV4 to be an explicit nil
+
+### UnsetLocalIpV4
+`func (o *NetworkInfo) UnsetLocalIpV4()`
+
+UnsetLocalIpV4 ensures that no value is present for LocalIpV4, not even an explicit nil
 ### GetHostname
 
 `func (o *NetworkInfo) GetHostname() string`
@@ -98,6 +108,16 @@ SetHostname sets Hostname field to given value.
 
 HasHostname returns a boolean if a field has been set.
 
+### SetHostnameNil
+
+`func (o *NetworkInfo) SetHostnameNil(b bool)`
+
+ SetHostnameNil sets the value for Hostname to be an explicit nil
+
+### UnsetHostname
+`func (o *NetworkInfo) UnsetHostname()`
+
+UnsetHostname ensures that no value is present for Hostname, not even an explicit nil
 ### GetMacAddress
 
 `func (o *NetworkInfo) GetMacAddress() string`
@@ -123,6 +143,16 @@ SetMacAddress sets MacAddress field to given value.
 
 HasMacAddress returns a boolean if a field has been set.
 
+### SetMacAddressNil
+
+`func (o *NetworkInfo) SetMacAddressNil(b bool)`
+
+ SetMacAddressNil sets the value for MacAddress to be an explicit nil
+
+### UnsetMacAddress
+`func (o *NetworkInfo) UnsetMacAddress()`
+
+UnsetMacAddress ensures that no value is present for MacAddress, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

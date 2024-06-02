@@ -11,10 +11,11 @@ package openapi
 
 import (
 	"context"
+	"testing"
+
+	openapiclient "github.com/commontorizon/torizon-openapi-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	openapiclient "github.com/commontorizon/torizon-openapi-go"
 )
 
 func Test_openapi_UpdatesAPIService(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_openapi_UpdatesAPIService(t *testing.T) {
 
 	t.Run("Test UpdatesAPIService GetLockboxDetails", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UpdatesAPI.GetLockboxDetails(context.Background()).Execute()
 
@@ -36,7 +37,7 @@ func Test_openapi_UpdatesAPIService(t *testing.T) {
 
 	t.Run("Test UpdatesAPIService GetLockboxes", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UpdatesAPI.GetLockboxes(context.Background()).Execute()
 
@@ -48,7 +49,7 @@ func Test_openapi_UpdatesAPIService(t *testing.T) {
 
 	t.Run("Test UpdatesAPIService GetLockboxesLockboxName", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var lockboxName string
 
@@ -62,7 +63,7 @@ func Test_openapi_UpdatesAPIService(t *testing.T) {
 
 	t.Run("Test UpdatesAPIService PatchUpdates", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UpdatesAPI.PatchUpdates(context.Background()).Execute()
 
@@ -74,7 +75,7 @@ func Test_openapi_UpdatesAPIService(t *testing.T) {
 
 	t.Run("Test UpdatesAPIService PostLockboxesLockboxName", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var lockboxName string
 
@@ -87,7 +88,7 @@ func Test_openapi_UpdatesAPIService(t *testing.T) {
 
 	t.Run("Test UpdatesAPIService PostUpdates", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.UpdatesAPI.PostUpdates(context.Background()).Execute()
 

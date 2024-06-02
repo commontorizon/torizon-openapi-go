@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uri** | Pointer to **string** |  | [optional] 
-**Metadata** | Pointer to **string** |  | [optional] 
+**Uri** | Pointer to **NullableString** |  | [optional] 
+**Metadata** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -51,6 +51,16 @@ SetUri sets Uri field to given value.
 
 HasUri returns a boolean if a field has been set.
 
+### SetUriNil
+
+`func (o *CustomUpdateData) SetUriNil(b bool)`
+
+ SetUriNil sets the value for Uri to be an explicit nil
+
+### UnsetUri
+`func (o *CustomUpdateData) UnsetUri()`
+
+UnsetUri ensures that no value is present for Uri, not even an explicit nil
 ### GetMetadata
 
 `func (o *CustomUpdateData) GetMetadata() string`
@@ -76,6 +86,16 @@ SetMetadata sets Metadata field to given value.
 
 HasMetadata returns a boolean if a field has been set.
 
+### SetMetadataNil
+
+`func (o *CustomUpdateData) SetMetadataNil(b bool)`
+
+ SetMetadataNil sets the value for Metadata to be an explicit nil
+
+### UnsetMetadata
+`func (o *CustomUpdateData) UnsetMetadata()`
+
+UnsetMetadata ensures that no value is present for Metadata, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

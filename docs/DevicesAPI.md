@@ -93,7 +93,7 @@ Name | Type | Description  | Notes
 
 ## GetDevices
 
-> PaginationResultDeviceInfoBasic GetDevices(ctx).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).Hibernated(hibernated).Status(status).ActivatedAfter(activatedAfter).ActivatedBefore(activatedBefore).SortBy(sortBy).SortDirection(sortDirection).Execute()
+> PaginationResultDeviceInfoBasic GetDevices(ctx).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).Hibernated(hibernated).Status(status).ActivatedAfter(activatedAfter).ActivatedBefore(activatedBefore).LastSeenStart(lastSeenStart).LastSeenEnd(lastSeenEnd).CreatedAtStart(createdAtStart).CreatedAtEnd(createdAtEnd).SortBy(sortBy).SortDirection(sortDirection).Execute()
 
 Query device information
 
@@ -121,12 +121,16 @@ func main() {
 	status := openapiclient.DeviceStatus("NotSeen") // DeviceStatus |  (optional)
 	activatedAfter := time.Now() // time.Time |  (optional)
 	activatedBefore := time.Now() // time.Time |  (optional)
+	lastSeenStart := time.Now() // time.Time |  (optional)
+	lastSeenEnd := time.Now() // time.Time |  (optional)
+	createdAtStart := time.Now() // time.Time |  (optional)
+	createdAtEnd := time.Now() // time.Time |  (optional)
 	sortBy := openapiclient.DeviceSort("Name") // DeviceSort |  (optional)
 	sortDirection := openapiclient.DeviceSortDirection("Asc") // DeviceSortDirection |  (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.DevicesAPI.GetDevices(context.Background()).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).Hibernated(hibernated).Status(status).ActivatedAfter(activatedAfter).ActivatedBefore(activatedBefore).SortBy(sortBy).SortDirection(sortDirection).Execute()
+	resp, r, err := apiClient.DevicesAPI.GetDevices(context.Background()).Offset(offset).Limit(limit).DeviceUuid(deviceUuid).NameContains(nameContains).Hibernated(hibernated).Status(status).ActivatedAfter(activatedAfter).ActivatedBefore(activatedBefore).LastSeenStart(lastSeenStart).LastSeenEnd(lastSeenEnd).CreatedAtStart(createdAtStart).CreatedAtEnd(createdAtEnd).SortBy(sortBy).SortDirection(sortDirection).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `DevicesAPI.GetDevices``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -155,6 +159,10 @@ Name | Type | Description  | Notes
  **status** | [**DeviceStatus**](DeviceStatus.md) |  | 
  **activatedAfter** | **time.Time** |  | 
  **activatedBefore** | **time.Time** |  | 
+ **lastSeenStart** | **time.Time** |  | 
+ **lastSeenEnd** | **time.Time** |  | 
+ **createdAtStart** | **time.Time** |  | 
+ **createdAtEnd** | **time.Time** |  | 
  **sortBy** | [**DeviceSort**](DeviceSort.md) |  | 
  **sortDirection** | [**DeviceSortDirection**](DeviceSortDirection.md) |  | 
 
@@ -998,7 +1006,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: text/plain, application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -1138,7 +1146,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: text/plain, application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

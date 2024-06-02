@@ -91,6 +91,38 @@ paths:
         style: form
       - explode: true
         in: query
+        name: lastSeenStart
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: lastSeenEnd
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: createdAtStart
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
+        name: createdAtEnd
+        required: false
+        schema:
+          format: date-time
+          type: string
+        style: form
+      - explode: true
+        in: query
         name: sortBy
         required: false
         schema:
@@ -221,6 +253,12 @@ paths:
                   $ref: '#/components/schemas/QueueResponse'
                 type: array
           description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -300,6 +338,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/NetworkInfo'
           description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -343,6 +387,12 @@ paths:
                   $ref: '#/components/schemas/EcuInfoResponse'
                 type: array
           description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -446,6 +496,12 @@ paths:
               schema:
                 type: string
           description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -480,10 +536,10 @@ paths:
           description: ""
         "400":
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-          description: "Invalid value for: body"
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -605,6 +661,12 @@ paths:
       responses:
         "202":
           description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -637,6 +699,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/DeviceInfoExtended'
           description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -675,10 +743,10 @@ paths:
           description: ""
         "400":
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-          description: "Invalid value for: body"
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -929,10 +997,10 @@ paths:
           description: ""
         "400":
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-          description: "Invalid value for: path parameter fleetId"
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
         "404":
           content:
             application/json:
@@ -1739,22 +1807,193 @@ paths:
       summary: Get aggregated metrics data from a fleet of devices
       tags:
       - Device Metrics
+  /remote-access/device/{deviceUuid}/sessions:
+    delete:
+      description: "\n        "
+      operationId: deleteRemote-accessDeviceDeviceuuidSessions
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Delete a remote access session for a device
+      tags:
+      - Remote Access
+    get:
+      description: "\n        "
+      operationId: getRemote-accessDeviceDeviceuuidSessions
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceSession'
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: get a remote access session for a device
+      tags:
+      - Remote Access
+    post:
+      description: "\n        "
+      operationId: postRemote-accessDeviceDeviceuuidSessions
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSessionRequest'
+        required: true
+      responses:
+        "200":
+          description: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequestRepr'
+          description: Bad Request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictRepr'
+          description: Conflict
+      summary: Create new remote access session for device
+      tags:
+      - Remote Access
+  /remote-access/device/{deviceUuid}:
+    get:
+      description: "\n        "
+      operationId: getRemote-accessDeviceDeviceuuid
+      parameters:
+      - explode: false
+        in: path
+        name: deviceUuid
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceInfo'
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Fetch remote access info for a device
+      tags:
+      - Remote Access
+  /remote-access/user/sessions:
+    get:
+      description: "\n        "
+      operationId: getRemote-accessUserSessions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UserSession'
+                type: array
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Fetch all sessions (and their related deviceId) for a user
+      tags:
+      - Remote Access
+  /remote-access/user/public-keys:
+    get:
+      description: "\n        "
+      operationId: getRemote-accessUserPublic-keys
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PublicKeys'
+          description: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundRepr'
+          description: Resource Not Found
+      summary: Fetch all remote-access public keys registered to a user
+      tags:
+      - Remote Access
 components:
   schemas:
     Average:
       type: object
     BadRequestRepr:
+      example:
+        msg: msg
+        code: code
+        description: description
+        cause: cause
+        errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         msg:
           type: string
         description:
+          nullable: true
           type: string
         code:
           type: string
         cause:
+          nullable: true
           type: string
         errorId:
           format: uuid
+          nullable: true
           type: string
       required:
       - code
@@ -1763,7 +2002,7 @@ components:
     ClientSignature:
       example:
         sig: sig
-        method: null
+        method: rsassa-pss-sha256
         keyid: keyid
       properties:
         keyid:
@@ -1778,17 +2017,26 @@ components:
       - sig
       type: object
     ConflictRepr:
+      example:
+        msg: msg
+        code: code
+        description: description
+        cause: cause
+        errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         msg:
           type: string
         description:
+          nullable: true
           type: string
         code:
           type: string
         cause:
+          nullable: true
           type: string
         errorId:
           format: uuid
+          nullable: true
           type: string
       required:
       - code
@@ -1799,7 +2047,7 @@ components:
     CreateFleet:
       example:
         expression: expression
-        fleetType: null
+        fleetType: static
         name: name
       properties:
         name:
@@ -1807,6 +2055,7 @@ components:
         fleetType:
           $ref: '#/components/schemas/FleetType'
         expression:
+          nullable: true
           type: string
       required:
       - fleetType
@@ -1833,7 +2082,24 @@ components:
           type: object
         expiresAt:
           format: date-time
+          nullable: true
           type: string
+      type: object
+    CreateSessionRequest:
+      example:
+        SessionDuration: SessionDuration
+        PublicKeys:
+        - PublicKeys
+        - PublicKeys
+      properties:
+        PublicKeys:
+          items:
+            type: string
+          type: array
+        SessionDuration:
+          type: string
+      required:
+      - SessionDuration
       type: object
     CustomUpdateData:
       example:
@@ -1842,19 +2108,24 @@ components:
       properties:
         uri:
           format: uri
+          nullable: true
           type: string
         metadata:
+          nullable: true
           type: string
       type: object
     DelegationInfo:
       properties:
         lastFetched:
           format: date-time
+          nullable: true
           type: string
         remoteUri:
           format: uri
+          nullable: true
           type: string
         friendlyName:
+          nullable: true
           type: string
       type: object
     DeviceCreateReq:
@@ -1864,13 +2135,46 @@ components:
         deviceId: deviceId
       properties:
         deviceName:
+          nullable: true
           type: string
         deviceId:
           type: string
         hibernated:
+          nullable: true
           type: boolean
       required:
       - deviceId
+      type: object
+    DeviceInfo:
+      example:
+        lastVersion: lastVersion
+        lastApiConnect: 2000-01-23T04:56:07.000+00:00
+        lastUserConnect:
+          RemoteIp: RemoteIp
+          ConnectedAt: 2000-01-23T04:56:07.000+00:00
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        lastSshSessionConnect:
+          IpAddress: IpAddress
+          ConnectedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        deviceId:
+          format: uuid
+          type: string
+        lastApiConnect:
+          format: date-time
+          type: string
+        lastSshSessionConnect:
+          $ref: '#/components/schemas/LastSshSession'
+        lastVersion:
+          type: string
+        lastUserConnect:
+          $ref: '#/components/schemas/UserInfo'
+      required:
+      - deviceId
+      - lastApiConnect
+      - lastSshSessionConnect
+      - lastUserConnect
+      - lastVersion
       type: object
     DeviceInfoBasic:
       example:
@@ -1882,7 +2186,7 @@ components:
         activatedAt: 2000-01-23T04:56:07.000+00:00
         deviceName: deviceName
         deviceId: deviceId
-        deviceStatus: null
+        deviceStatus: NotSeen
       pattern: "^[A-Z].*"
       properties:
         deviceUuid:
@@ -1894,16 +2198,19 @@ components:
           type: string
         lastSeen:
           format: date-time
+          nullable: true
           type: string
         createdAt:
           format: date-time
           type: string
         activatedAt:
           format: date-time
+          nullable: true
           type: string
         deviceStatus:
           $ref: '#/components/schemas/DeviceStatus'
         notes:
+          nullable: true
           type: string
         hibernated:
           type: boolean
@@ -1937,18 +2244,18 @@ components:
         activatedAt: 2000-01-23T04:56:07.000+00:00
         deviceName: deviceName
         deviceId: deviceId
-        deviceStatus: null
+        deviceStatus: NotSeen
         createdAt: 2000-01-23T04:56:07.000+00:00
         lastUpdated: 2000-01-23T04:56:07.000+00:00
         deviceFleets:
         - createdAt: 2000-01-23T04:56:07.000+00:00
           expression: expression
-          fleetType: null
+          fleetType: static
           name: name
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - createdAt: 2000-01-23T04:56:07.000+00:00
           expression: expression
-          fleetType: null
+          fleetType: static
           name: name
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         lastSeen: 2000-01-23T04:56:07.000+00:00
@@ -1967,21 +2274,25 @@ components:
           type: string
         lastSeen:
           format: date-time
+          nullable: true
           type: string
         createdAt:
           format: date-time
           type: string
         activatedAt:
           format: date-time
+          nullable: true
           type: string
         deviceStatus:
           $ref: '#/components/schemas/DeviceStatus'
         notes:
+          nullable: true
           type: string
         hibernated:
           type: boolean
         lastUpdated:
           format: date-time
+          nullable: true
           type: string
         deviceFleets:
           items:
@@ -2051,6 +2362,22 @@ components:
           type: array
       required:
       - deviceUuid
+      type: object
+    DeviceSession:
+      example:
+        ssh:
+          RaServerSshPubKey: RaServerSshPubKey
+          ReversePort: 0
+          AuthorizedPubKeys:
+          - AuthorizedPubKeys
+          - AuthorizedPubKeys
+          ExpiresAt: 2000-01-23T04:56:07.000+00:00
+          RaServerUrl: RaServerUrl
+      properties:
+        ssh:
+          $ref: '#/components/schemas/SshSession'
+      required:
+      - ssh
       type: object
     DeviceSort:
       enum:
@@ -2129,13 +2456,17 @@ components:
         hardwareIds:
           items:
             type: string
+          nullable: true
           type: array
         uri:
           format: uri
+          nullable: true
           type: string
         proprietaryMeta:
+          nullable: true
           type: string
         comment:
+          nullable: true
           type: string
       type: object
     ErrorRepresentation:
@@ -2150,9 +2481,11 @@ components:
         description:
           type: string
         cause:
+          nullable: true
           type: string
         errorId:
           format: uuid
+          nullable: true
           type: string
       required:
       - code
@@ -2191,6 +2524,7 @@ components:
             type: string
           type: object
         pkgType:
+          nullable: true
           type: string
         hardwareIds:
           items:
@@ -2198,11 +2532,14 @@ components:
           type: array
         createdAt:
           format: date-time
+          nullable: true
           type: string
         uri:
           format: uri
+          nullable: true
           type: string
         proprietaryMeta:
+          nullable: true
           type: string
       required:
       - delegationOrigin
@@ -2231,7 +2568,7 @@ components:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
         expression: expression
-        fleetType: null
+        fleetType: static
         name: name
         id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       pattern: "^[A-Z].*"
@@ -2247,6 +2584,7 @@ components:
         fleetType:
           $ref: '#/components/schemas/FleetType'
         expression:
+          nullable: true
           type: string
       required:
       - createdAt
@@ -2295,10 +2633,10 @@ components:
         signed: ""
         signatures:
         - sig: sig
-          method: null
+          method: rsassa-pss-sha256
           keyid: keyid
         - sig: sig
-          method: null
+          method: rsassa-pss-sha256
           keyid: keyid
       properties:
         signatures:
@@ -2309,7 +2647,33 @@ components:
       required:
       - signed
       type: object
+    KeyData:
+      example:
+        meta: ""
+        pubkey: pubkey
+      properties:
+        pubkey:
+          type: string
+        meta: {}
+      required:
+      - meta
+      - pubkey
+      type: object
     Last:
+      type: object
+    LastSshSession:
+      example:
+        IpAddress: IpAddress
+        ConnectedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        ConnectedAt:
+          format: date-time
+          type: string
+        IpAddress:
+          type: string
+      required:
+      - ConnectedAt
+      - IpAddress
       type: object
     Map_DelegatedRoleName_DelegationInfo:
       additionalProperties:
@@ -2322,6 +2686,10 @@ components:
     Map_EcuIdentifier_TargetImage:
       additionalProperties:
         $ref: '#/components/schemas/TargetImage'
+      type: object
+    Map_KeyData:
+      additionalProperties:
+        $ref: '#/components/schemas/KeyData'
       type: object
     Map_LockboxName_JsonSignedPayload:
       additionalProperties:
@@ -2385,10 +2753,13 @@ components:
           format: uuid
           type: string
         localIpV4:
+          nullable: true
           type: string
         hostname:
+          nullable: true
           type: string
         macAddress:
+          nullable: true
           type: string
       required:
       - deviceUuid
@@ -2396,17 +2767,26 @@ components:
     None:
       type: object
     NotFoundRepr:
+      example:
+        msg: msg
+        code: code
+        description: description
+        cause: cause
+        errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         msg:
           type: string
         description:
+          nullable: true
           type: string
         code:
           type: string
         cause:
+          nullable: true
           type: string
         errorId:
           format: uuid
+          nullable: true
           type: string
       required:
       - code
@@ -2443,6 +2823,7 @@ components:
             type: string
           type: object
         pkgType:
+          nullable: true
           type: string
         hardwareIds:
           items:
@@ -2450,13 +2831,17 @@ components:
           type: array
         createdAt:
           format: date-time
+          nullable: true
           type: string
         uri:
           format: uri
+          nullable: true
           type: string
         proprietaryMeta:
+          nullable: true
           type: string
         comment:
+          nullable: true
           type: string
       required:
       - hashes
@@ -2495,7 +2880,7 @@ components:
           activatedAt: 2000-01-23T04:56:07.000+00:00
           deviceName: deviceName
           deviceId: deviceId
-          deviceStatus: null
+          deviceStatus: NotSeen
         - deviceUuid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
           createdAt: 2000-01-23T04:56:07.000+00:00
           lastSeen: 2000-01-23T04:56:07.000+00:00
@@ -2504,7 +2889,7 @@ components:
           activatedAt: 2000-01-23T04:56:07.000+00:00
           deviceName: deviceName
           deviceId: deviceId
-          deviceStatus: null
+          deviceStatus: NotSeen
         limit: 1
       properties:
         values:
@@ -2634,12 +3019,12 @@ components:
         values:
         - createdAt: 2000-01-23T04:56:07.000+00:00
           expression: expression
-          fleetType: null
+          fleetType: static
           name: name
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         - createdAt: 2000-01-23T04:56:07.000+00:00
           expression: expression
-          fleetType: null
+          fleetType: static
           name: name
           id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
         limit: 1
@@ -2804,6 +3189,20 @@ components:
       - standardDeviceLimit
       - token
       type: object
+    PublicKeys:
+      example:
+        keys:
+          key:
+            meta: ""
+            pubkey: pubkey
+      properties:
+        keys:
+          additionalProperties:
+            $ref: '#/components/schemas/KeyData'
+          type: object
+      required:
+      - keys
+      type: object
     QueueResponse:
       example:
         correlationId: correlationId
@@ -2832,17 +3231,26 @@ components:
       - targets
       type: object
     RangeNotSatisfiableRepr:
+      example:
+        msg: msg
+        code: code
+        description: description
+        cause: cause
+        errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         msg:
           type: string
         description:
+          nullable: true
           type: string
         code:
           type: string
         cause:
+          nullable: true
           type: string
         errorId:
           format: uuid
+          nullable: true
           type: string
       required:
       - code
@@ -2948,6 +3356,36 @@ components:
       - ecuErrors
       - name
       type: object
+    SshSession:
+      example:
+        RaServerSshPubKey: RaServerSshPubKey
+        ReversePort: 0
+        AuthorizedPubKeys:
+        - AuthorizedPubKeys
+        - AuthorizedPubKeys
+        ExpiresAt: 2000-01-23T04:56:07.000+00:00
+        RaServerUrl: RaServerUrl
+      properties:
+        AuthorizedPubKeys:
+          items:
+            type: string
+          type: array
+        ReversePort:
+          format: int32
+          type: integer
+        RaServerUrl:
+          type: string
+        RaServerSshPubKey:
+          type: string
+        ExpiresAt:
+          format: date-time
+          type: string
+      required:
+      - ExpiresAt
+      - RaServerSshPubKey
+      - RaServerUrl
+      - ReversePort
+      type: object
     TargetImage:
       example:
         image:
@@ -2962,6 +3400,7 @@ components:
           $ref: '#/components/schemas/Image'
         uri:
           format: uri
+          nullable: true
           type: string
         createdAt:
           format: date-time
@@ -3014,6 +3453,7 @@ components:
           type: integer
         _2:
           format: double
+          nullable: true
           type: number
       required:
       - _1
@@ -3093,29 +3533,76 @@ components:
           items:
             format: uuid
             type: string
+          nullable: true
           type: array
         fleets:
           items:
             format: uuid
             type: string
+          nullable: true
           type: array
       type: object
     UpstreamEndpointErrorRepr:
+      example:
+        msg: msg
+        code: code
+        description: description
+        cause: cause
+        errorId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
       properties:
         msg:
           type: string
         description:
+          nullable: true
           type: string
         code:
           type: string
         cause:
+          nullable: true
           type: string
         errorId:
           format: uuid
+          nullable: true
           type: string
       required:
       - code
       - msg
+      type: object
+    UserInfo:
+      example:
+        RemoteIp: RemoteIp
+        ConnectedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        RemoteIp:
+          type: string
+        ConnectedAt:
+          format: date-time
+          type: string
+      required:
+      - ConnectedAt
+      - RemoteIp
+      type: object
+    UserSession:
+      example:
+        session:
+          ssh:
+            RaServerSshPubKey: RaServerSshPubKey
+            ReversePort: 0
+            AuthorizedPubKeys:
+            - AuthorizedPubKeys
+            - AuthorizedPubKeys
+            ExpiresAt: 2000-01-23T04:56:07.000+00:00
+            RaServerUrl: RaServerUrl
+        deviceId: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        deviceId:
+          format: uuid
+          type: string
+        session:
+          $ref: '#/components/schemas/DeviceSession'
+      required:
+      - deviceId
+      - session
       type: object
   securitySchemes:
     BearerAuth:

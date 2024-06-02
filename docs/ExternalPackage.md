@@ -10,11 +10,11 @@ Name | Type | Description | Notes
 **PackageId** | **string** |  | 
 **Size** | **int64** |  | 
 **Hashes** | **map[string]string** |  | 
-**PkgType** | Pointer to **string** |  | [optional] 
+**PkgType** | Pointer to **NullableString** |  | [optional] 
 **HardwareIds** | Pointer to **[]string** |  | [optional] 
-**CreatedAt** | Pointer to **time.Time** |  | [optional] 
-**Uri** | Pointer to **string** |  | [optional] 
-**ProprietaryMeta** | Pointer to **string** |  | [optional] 
+**CreatedAt** | Pointer to **NullableTime** |  | [optional] 
+**Uri** | Pointer to **NullableString** |  | [optional] 
+**ProprietaryMeta** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -180,6 +180,16 @@ SetPkgType sets PkgType field to given value.
 
 HasPkgType returns a boolean if a field has been set.
 
+### SetPkgTypeNil
+
+`func (o *ExternalPackage) SetPkgTypeNil(b bool)`
+
+ SetPkgTypeNil sets the value for PkgType to be an explicit nil
+
+### UnsetPkgType
+`func (o *ExternalPackage) UnsetPkgType()`
+
+UnsetPkgType ensures that no value is present for PkgType, not even an explicit nil
 ### GetHardwareIds
 
 `func (o *ExternalPackage) GetHardwareIds() []string`
@@ -230,6 +240,16 @@ SetCreatedAt sets CreatedAt field to given value.
 
 HasCreatedAt returns a boolean if a field has been set.
 
+### SetCreatedAtNil
+
+`func (o *ExternalPackage) SetCreatedAtNil(b bool)`
+
+ SetCreatedAtNil sets the value for CreatedAt to be an explicit nil
+
+### UnsetCreatedAt
+`func (o *ExternalPackage) UnsetCreatedAt()`
+
+UnsetCreatedAt ensures that no value is present for CreatedAt, not even an explicit nil
 ### GetUri
 
 `func (o *ExternalPackage) GetUri() string`
@@ -255,6 +275,16 @@ SetUri sets Uri field to given value.
 
 HasUri returns a boolean if a field has been set.
 
+### SetUriNil
+
+`func (o *ExternalPackage) SetUriNil(b bool)`
+
+ SetUriNil sets the value for Uri to be an explicit nil
+
+### UnsetUri
+`func (o *ExternalPackage) UnsetUri()`
+
+UnsetUri ensures that no value is present for Uri, not even an explicit nil
 ### GetProprietaryMeta
 
 `func (o *ExternalPackage) GetProprietaryMeta() string`
@@ -280,6 +310,16 @@ SetProprietaryMeta sets ProprietaryMeta field to given value.
 
 HasProprietaryMeta returns a boolean if a field has been set.
 
+### SetProprietaryMetaNil
+
+`func (o *ExternalPackage) SetProprietaryMetaNil(b bool)`
+
+ SetProprietaryMetaNil sets the value for ProprietaryMeta to be an explicit nil
+
+### UnsetProprietaryMeta
+`func (o *ExternalPackage) UnsetProprietaryMeta()`
+
+UnsetProprietaryMeta ensures that no value is present for ProprietaryMeta, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

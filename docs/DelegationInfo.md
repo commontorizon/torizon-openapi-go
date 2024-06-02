@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LastFetched** | Pointer to **time.Time** |  | [optional] 
-**RemoteUri** | Pointer to **string** |  | [optional] 
-**FriendlyName** | Pointer to **string** |  | [optional] 
+**LastFetched** | Pointer to **NullableTime** |  | [optional] 
+**RemoteUri** | Pointer to **NullableString** |  | [optional] 
+**FriendlyName** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -52,6 +52,16 @@ SetLastFetched sets LastFetched field to given value.
 
 HasLastFetched returns a boolean if a field has been set.
 
+### SetLastFetchedNil
+
+`func (o *DelegationInfo) SetLastFetchedNil(b bool)`
+
+ SetLastFetchedNil sets the value for LastFetched to be an explicit nil
+
+### UnsetLastFetched
+`func (o *DelegationInfo) UnsetLastFetched()`
+
+UnsetLastFetched ensures that no value is present for LastFetched, not even an explicit nil
 ### GetRemoteUri
 
 `func (o *DelegationInfo) GetRemoteUri() string`
@@ -77,6 +87,16 @@ SetRemoteUri sets RemoteUri field to given value.
 
 HasRemoteUri returns a boolean if a field has been set.
 
+### SetRemoteUriNil
+
+`func (o *DelegationInfo) SetRemoteUriNil(b bool)`
+
+ SetRemoteUriNil sets the value for RemoteUri to be an explicit nil
+
+### UnsetRemoteUri
+`func (o *DelegationInfo) UnsetRemoteUri()`
+
+UnsetRemoteUri ensures that no value is present for RemoteUri, not even an explicit nil
 ### GetFriendlyName
 
 `func (o *DelegationInfo) GetFriendlyName() string`
@@ -102,6 +122,16 @@ SetFriendlyName sets FriendlyName field to given value.
 
 HasFriendlyName returns a boolean if a field has been set.
 
+### SetFriendlyNameNil
+
+`func (o *DelegationInfo) SetFriendlyNameNil(b bool)`
+
+ SetFriendlyNameNil sets the value for FriendlyName to be an explicit nil
+
+### UnsetFriendlyName
+`func (o *DelegationInfo) UnsetFriendlyName()`
+
+UnsetFriendlyName ensures that no value is present for FriendlyName, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

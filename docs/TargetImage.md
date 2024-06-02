@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Image** | [**Image**](Image.md) |  | 
-**Uri** | Pointer to **string** |  | [optional] 
+**Uri** | Pointer to **NullableString** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
 
 ## Methods
@@ -72,6 +72,16 @@ SetUri sets Uri field to given value.
 
 HasUri returns a boolean if a field has been set.
 
+### SetUriNil
+
+`func (o *TargetImage) SetUriNil(b bool)`
+
+ SetUriNil sets the value for Uri to be an explicit nil
+
+### UnsetUri
+`func (o *TargetImage) UnsetUri()`
+
+UnsetUri ensures that no value is present for Uri, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *TargetImage) GetCreatedAt() time.Time`

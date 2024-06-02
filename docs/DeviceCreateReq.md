@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**DeviceName** | Pointer to **string** |  | [optional] 
+**DeviceName** | Pointer to **NullableString** |  | [optional] 
 **DeviceId** | **string** |  | 
-**Hibernated** | Pointer to **bool** |  | [optional] 
+**Hibernated** | Pointer to **NullableBool** |  | [optional] 
 
 ## Methods
 
@@ -52,6 +52,16 @@ SetDeviceName sets DeviceName field to given value.
 
 HasDeviceName returns a boolean if a field has been set.
 
+### SetDeviceNameNil
+
+`func (o *DeviceCreateReq) SetDeviceNameNil(b bool)`
+
+ SetDeviceNameNil sets the value for DeviceName to be an explicit nil
+
+### UnsetDeviceName
+`func (o *DeviceCreateReq) UnsetDeviceName()`
+
+UnsetDeviceName ensures that no value is present for DeviceName, not even an explicit nil
 ### GetDeviceId
 
 `func (o *DeviceCreateReq) GetDeviceId() string`
@@ -97,6 +107,16 @@ SetHibernated sets Hibernated field to given value.
 
 HasHibernated returns a boolean if a field has been set.
 
+### SetHibernatedNil
+
+`func (o *DeviceCreateReq) SetHibernatedNil(b bool)`
+
+ SetHibernatedNil sets the value for Hibernated to be an explicit nil
+
+### UnsetHibernated
+`func (o *DeviceCreateReq) UnsetHibernated()`
+
+UnsetHibernated ensures that no value is present for Hibernated, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

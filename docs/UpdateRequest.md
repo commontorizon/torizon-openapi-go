@@ -103,6 +103,16 @@ SetDevices sets Devices field to given value.
 
 HasDevices returns a boolean if a field has been set.
 
+### SetDevicesNil
+
+`func (o *UpdateRequest) SetDevicesNil(b bool)`
+
+ SetDevicesNil sets the value for Devices to be an explicit nil
+
+### UnsetDevices
+`func (o *UpdateRequest) UnsetDevices()`
+
+UnsetDevices ensures that no value is present for Devices, not even an explicit nil
 ### GetFleets
 
 `func (o *UpdateRequest) GetFleets() []string`
@@ -128,6 +138,16 @@ SetFleets sets Fleets field to given value.
 
 HasFleets returns a boolean if a field has been set.
 
+### SetFleetsNil
+
+`func (o *UpdateRequest) SetFleetsNil(b bool)`
+
+ SetFleetsNil sets the value for Fleets to be an explicit nil
+
+### UnsetFleets
+`func (o *UpdateRequest) UnsetFleets()`
+
+UnsetFleets ensures that no value is present for Fleets, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -5,10 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Msg** | **string** |  | 
-**Description** | Pointer to **string** |  | [optional] 
+**Description** | Pointer to **NullableString** |  | [optional] 
 **Code** | **string** |  | 
-**Cause** | Pointer to **string** |  | [optional] 
-**ErrorId** | Pointer to **string** |  | [optional] 
+**Cause** | Pointer to **NullableString** |  | [optional] 
+**ErrorId** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -74,6 +74,16 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### SetDescriptionNil
+
+`func (o *NotFoundRepr) SetDescriptionNil(b bool)`
+
+ SetDescriptionNil sets the value for Description to be an explicit nil
+
+### UnsetDescription
+`func (o *NotFoundRepr) UnsetDescription()`
+
+UnsetDescription ensures that no value is present for Description, not even an explicit nil
 ### GetCode
 
 `func (o *NotFoundRepr) GetCode() string`
@@ -119,6 +129,16 @@ SetCause sets Cause field to given value.
 
 HasCause returns a boolean if a field has been set.
 
+### SetCauseNil
+
+`func (o *NotFoundRepr) SetCauseNil(b bool)`
+
+ SetCauseNil sets the value for Cause to be an explicit nil
+
+### UnsetCause
+`func (o *NotFoundRepr) UnsetCause()`
+
+UnsetCause ensures that no value is present for Cause, not even an explicit nil
 ### GetErrorId
 
 `func (o *NotFoundRepr) GetErrorId() string`
@@ -144,6 +164,16 @@ SetErrorId sets ErrorId field to given value.
 
 HasErrorId returns a boolean if a field has been set.
 
+### SetErrorIdNil
+
+`func (o *NotFoundRepr) SetErrorIdNil(b bool)`
+
+ SetErrorIdNil sets the value for ErrorId to be an explicit nil
+
+### UnsetErrorId
+`func (o *NotFoundRepr) UnsetErrorId()`
+
+UnsetErrorId ensures that no value is present for ErrorId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

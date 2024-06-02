@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Name** | **string** |  | 
 **FleetType** | [**FleetType**](FleetType.md) |  | 
-**Expression** | Pointer to **string** |  | [optional] 
+**Expression** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -92,6 +92,16 @@ SetExpression sets Expression field to given value.
 
 HasExpression returns a boolean if a field has been set.
 
+### SetExpressionNil
+
+`func (o *CreateFleet) SetExpressionNil(b bool)`
+
+ SetExpressionNil sets the value for Expression to be an explicit nil
+
+### UnsetExpression
+`func (o *CreateFleet) UnsetExpression()`
+
+UnsetExpression ensures that no value is present for Expression, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

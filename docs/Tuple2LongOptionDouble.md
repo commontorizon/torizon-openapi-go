@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Var1** | **int64** |  | 
-**Var2** | Pointer to **float64** |  | [optional] 
+**Var2** | Pointer to **NullableFloat64** |  | [optional] 
 
 ## Methods
 
@@ -71,6 +71,16 @@ SetVar2 sets Var2 field to given value.
 
 HasVar2 returns a boolean if a field has been set.
 
+### SetVar2Nil
+
+`func (o *Tuple2LongOptionDouble) SetVar2Nil(b bool)`
+
+ SetVar2Nil sets the value for Var2 to be an explicit nil
+
+### UnsetVar2
+`func (o *Tuple2LongOptionDouble) UnsetVar2()`
+
+UnsetVar2 ensures that no value is present for Var2, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **DeviceUuid** | **string** |  | 
 **DeviceName** | **string** |  | 
 **DeviceId** | **string** |  | 
-**LastSeen** | Pointer to **time.Time** |  | [optional] 
+**LastSeen** | Pointer to **NullableTime** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
-**ActivatedAt** | Pointer to **time.Time** |  | [optional] 
+**ActivatedAt** | Pointer to **NullableTime** |  | [optional] 
 **DeviceStatus** | [**DeviceStatus**](DeviceStatus.md) |  | 
-**Notes** | Pointer to **string** |  | [optional] 
+**Notes** | Pointer to **NullableString** |  | [optional] 
 **Hibernated** | **bool** |  | 
-**LastUpdated** | Pointer to **time.Time** |  | [optional] 
+**LastUpdated** | Pointer to **NullableTime** |  | [optional] 
 **DeviceFleets** | Pointer to [**[]Fleet**](Fleet.md) |  | [optional] 
 **DevicePackages** | Pointer to [**[]DevicePackage**](DevicePackage.md) |  | [optional] 
 **DeviceTags** | Pointer to [**[]Tuple2DeviceTagIdDeviceTagValue**](Tuple2DeviceTagIdDeviceTagValue.md) |  | [optional] 
@@ -123,6 +123,16 @@ SetLastSeen sets LastSeen field to given value.
 
 HasLastSeen returns a boolean if a field has been set.
 
+### SetLastSeenNil
+
+`func (o *DeviceInfoExtended) SetLastSeenNil(b bool)`
+
+ SetLastSeenNil sets the value for LastSeen to be an explicit nil
+
+### UnsetLastSeen
+`func (o *DeviceInfoExtended) UnsetLastSeen()`
+
+UnsetLastSeen ensures that no value is present for LastSeen, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *DeviceInfoExtended) GetCreatedAt() time.Time`
@@ -168,6 +178,16 @@ SetActivatedAt sets ActivatedAt field to given value.
 
 HasActivatedAt returns a boolean if a field has been set.
 
+### SetActivatedAtNil
+
+`func (o *DeviceInfoExtended) SetActivatedAtNil(b bool)`
+
+ SetActivatedAtNil sets the value for ActivatedAt to be an explicit nil
+
+### UnsetActivatedAt
+`func (o *DeviceInfoExtended) UnsetActivatedAt()`
+
+UnsetActivatedAt ensures that no value is present for ActivatedAt, not even an explicit nil
 ### GetDeviceStatus
 
 `func (o *DeviceInfoExtended) GetDeviceStatus() DeviceStatus`
@@ -213,6 +233,16 @@ SetNotes sets Notes field to given value.
 
 HasNotes returns a boolean if a field has been set.
 
+### SetNotesNil
+
+`func (o *DeviceInfoExtended) SetNotesNil(b bool)`
+
+ SetNotesNil sets the value for Notes to be an explicit nil
+
+### UnsetNotes
+`func (o *DeviceInfoExtended) UnsetNotes()`
+
+UnsetNotes ensures that no value is present for Notes, not even an explicit nil
 ### GetHibernated
 
 `func (o *DeviceInfoExtended) GetHibernated() bool`
@@ -258,6 +288,16 @@ SetLastUpdated sets LastUpdated field to given value.
 
 HasLastUpdated returns a boolean if a field has been set.
 
+### SetLastUpdatedNil
+
+`func (o *DeviceInfoExtended) SetLastUpdatedNil(b bool)`
+
+ SetLastUpdatedNil sets the value for LastUpdated to be an explicit nil
+
+### UnsetLastUpdated
+`func (o *DeviceInfoExtended) UnsetLastUpdated()`
+
+UnsetLastUpdated ensures that no value is present for LastUpdated, not even an explicit nil
 ### GetDeviceFleets
 
 `func (o *DeviceInfoExtended) GetDeviceFleets() []Fleet`

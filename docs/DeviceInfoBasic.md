@@ -7,11 +7,11 @@ Name | Type | Description | Notes
 **DeviceUuid** | **string** |  | 
 **DeviceName** | **string** |  | 
 **DeviceId** | **string** |  | 
-**LastSeen** | Pointer to **time.Time** |  | [optional] 
+**LastSeen** | Pointer to **NullableTime** |  | [optional] 
 **CreatedAt** | **time.Time** |  | 
-**ActivatedAt** | Pointer to **time.Time** |  | [optional] 
+**ActivatedAt** | Pointer to **NullableTime** |  | [optional] 
 **DeviceStatus** | [**DeviceStatus**](DeviceStatus.md) |  | 
-**Notes** | Pointer to **string** |  | [optional] 
+**Notes** | Pointer to **NullableString** |  | [optional] 
 **Hibernated** | **bool** |  | 
 
 ## Methods
@@ -118,6 +118,16 @@ SetLastSeen sets LastSeen field to given value.
 
 HasLastSeen returns a boolean if a field has been set.
 
+### SetLastSeenNil
+
+`func (o *DeviceInfoBasic) SetLastSeenNil(b bool)`
+
+ SetLastSeenNil sets the value for LastSeen to be an explicit nil
+
+### UnsetLastSeen
+`func (o *DeviceInfoBasic) UnsetLastSeen()`
+
+UnsetLastSeen ensures that no value is present for LastSeen, not even an explicit nil
 ### GetCreatedAt
 
 `func (o *DeviceInfoBasic) GetCreatedAt() time.Time`
@@ -163,6 +173,16 @@ SetActivatedAt sets ActivatedAt field to given value.
 
 HasActivatedAt returns a boolean if a field has been set.
 
+### SetActivatedAtNil
+
+`func (o *DeviceInfoBasic) SetActivatedAtNil(b bool)`
+
+ SetActivatedAtNil sets the value for ActivatedAt to be an explicit nil
+
+### UnsetActivatedAt
+`func (o *DeviceInfoBasic) UnsetActivatedAt()`
+
+UnsetActivatedAt ensures that no value is present for ActivatedAt, not even an explicit nil
 ### GetDeviceStatus
 
 `func (o *DeviceInfoBasic) GetDeviceStatus() DeviceStatus`
@@ -208,6 +228,16 @@ SetNotes sets Notes field to given value.
 
 HasNotes returns a boolean if a field has been set.
 
+### SetNotesNil
+
+`func (o *DeviceInfoBasic) SetNotesNil(b bool)`
+
+ SetNotesNil sets the value for Notes to be an explicit nil
+
+### UnsetNotes
+`func (o *DeviceInfoBasic) UnsetNotes()`
+
+UnsetNotes ensures that no value is present for Notes, not even an explicit nil
 ### GetHibernated
 
 `func (o *DeviceInfoBasic) GetHibernated() bool`

@@ -11,10 +11,11 @@ package openapi
 
 import (
 	"context"
+	"testing"
+
+	openapiclient "github.com/commontorizon/torizon-openapi-go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
-	openapiclient "github.com/commontorizon/torizon-openapi-go"
 )
 
 func Test_openapi_DeviceMetricsAPIService(t *testing.T) {
@@ -24,7 +25,7 @@ func Test_openapi_DeviceMetricsAPIService(t *testing.T) {
 
 	t.Run("Test DeviceMetricsAPIService GetDeviceDataDevicesDeviceuuidMetrics", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var deviceUuid string
 
@@ -38,7 +39,7 @@ func Test_openapi_DeviceMetricsAPIService(t *testing.T) {
 
 	t.Run("Test DeviceMetricsAPIService GetDeviceDataFleetsFleetidMetrics", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		var fleetId string
 
@@ -52,7 +53,7 @@ func Test_openapi_DeviceMetricsAPIService(t *testing.T) {
 
 	t.Run("Test DeviceMetricsAPIService GetDeviceDataMetricNames", func(t *testing.T) {
 
-		t.Skip("skip test")  // remove to run test
+		t.Skip("skip test") // remove to run test
 
 		resp, httpRes, err := apiClient.DeviceMetricsAPI.GetDeviceDataMetricNames(context.Background()).Execute()
 

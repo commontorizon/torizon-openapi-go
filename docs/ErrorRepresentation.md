@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Code** | **string** |  | 
 **Description** | **string** |  | 
-**Cause** | Pointer to **string** |  | [optional] 
-**ErrorId** | Pointer to **string** |  | [optional] 
+**Cause** | Pointer to **NullableString** |  | [optional] 
+**ErrorId** | Pointer to **NullableString** |  | [optional] 
 
 ## Methods
 
@@ -93,6 +93,16 @@ SetCause sets Cause field to given value.
 
 HasCause returns a boolean if a field has been set.
 
+### SetCauseNil
+
+`func (o *ErrorRepresentation) SetCauseNil(b bool)`
+
+ SetCauseNil sets the value for Cause to be an explicit nil
+
+### UnsetCause
+`func (o *ErrorRepresentation) UnsetCause()`
+
+UnsetCause ensures that no value is present for Cause, not even an explicit nil
 ### GetErrorId
 
 `func (o *ErrorRepresentation) GetErrorId() string`
@@ -118,6 +128,16 @@ SetErrorId sets ErrorId field to given value.
 
 HasErrorId returns a boolean if a field has been set.
 
+### SetErrorIdNil
+
+`func (o *ErrorRepresentation) SetErrorIdNil(b bool)`
+
+ SetErrorIdNil sets the value for ErrorId to be an explicit nil
+
+### UnsetErrorId
+`func (o *ErrorRepresentation) UnsetErrorId()`
+
+UnsetErrorId ensures that no value is present for ErrorId, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
